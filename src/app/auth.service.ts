@@ -3,6 +3,7 @@ import { MsalService } from '@azure/msal-angular';
 
 import { AlertsService } from './alerts.service';
 import { OAuthSettings } from '../oauth';
+import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from './user';
 
 @Injectable({
@@ -16,8 +17,8 @@ export class AuthService {
     private msalService: MsalService,
     private alertsService: AlertsService) {
 
-    this.authenticated = false;
-    this.user = null;
+    this.authenticated = this.msalService.getUser() !=null;
+    this.getUser().then((user) => {this.user = user});
   }
 
   // Prompt the user to sign in and
@@ -30,10 +31,7 @@ export class AuthService {
 
     if (result) {
       this.authenticated = true;
-      // Temporary placeholder
-      this.user = new User();
-      this.user.displayName = "Adele Vance";
-      this.user.email = "AdeleV@contoso.com";
+      this.user = await this.getUser();
     }
   }
 
@@ -51,8 +49,39 @@ export class AuthService {
         this.alertsService.add('Get token failed', JSON.stringify(reason, null, 2));
       });
 
-    // Temporary to display token in an error box
-    if (result) this.alertsService.add('Token acquired', result);
     return result;
+  }
+
+  private async getUser(): Promise<User> {
+    if (!this.authenticated) return null;
+  
+    let graphClient = Client.init({
+      // Initialize the Graph client with an auth
+      // provider that requests the token from the
+      // auth service
+      authProvider: async(done) => {
+        let token = await this.getAccessToken()
+          .catch((reason) => {
+            done(reason, null);
+          });
+  
+        if (token)
+        {
+          done(null, token);
+        } else {
+          done("Could not get an access token", null);
+        }
+      }
+    });
+  
+    // Get the user from Graph (GET /me)
+    let graphUser = await graphClient.api('/me').get();
+  
+    let user = new User();
+    user.displayName = graphUser.displayName;
+    // Prefer the mail property, but fall back to userPrincipalName
+    user.email = graphUser.mail || graphUser.userPrincipalName;
+  
+    return user;
   }
 }
