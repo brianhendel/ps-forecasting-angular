@@ -11,6 +11,7 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { HomeComponent } from './home/home.component';
+import { AlertsComponent } from './alerts/alerts.component';
 
 library.add(faExternalLinkAlt);
 library.add(faUserCircle);
@@ -19,7 +20,8 @@ library.add(faUserCircle);
   declarations: [
     AppComponent,
     NavBarComponent,
-    HomeComponent
+    HomeComponent,
+    AlertsComponent
   ],
   imports: [
     BrowserModule,
