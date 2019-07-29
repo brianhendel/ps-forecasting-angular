@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 
 import { AlertsService } from './alerts.service';
-import { OAuthSettings } from '../oauth';
+import { OAuthSettings } from '../../oauth';
 import { Client } from '@microsoft/microsoft-graph-client';
-import { User } from './user';
+import { User } from '../user'
 
 @Injectable({
   providedIn: 'root'

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Client } from '@microsoft/microsoft-graph-client';
 
 import { AuthService } from './auth.service';
-import { Event } from './event';
+import { Event } from '../event';
 import { AlertsService } from './alerts.service';
 
 @Injectable({
@@ -39,10 +39,10 @@ export class GraphService {
     try {
 
       let result =  await this.graphClient
-        .api('/me/events')
+        .api('/me/calendar/calendarView' + '?startdatetime=2019-07-26T19:43:49.078Z&enddatetime=2019-08-02T19:43:49.078Z')
         .select('subject,organizer,start,end,categories')
         .orderby('start/dateTime DESC')
-        .top(10)
+        .top(100)
         .get();
 
       return result.value;
