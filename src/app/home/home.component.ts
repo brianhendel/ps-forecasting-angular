@@ -9,8 +9,11 @@ import { AuthService } from '../auth.service';
 })
 
 export class HomeComponent implements OnInit {
+  
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    ) {    }
 
   ngOnInit() {
   }
@@ -18,4 +21,7 @@ export class HomeComponent implements OnInit {
   async signIn(): Promise<void> {
     await this.authService.signIn();
     }
-  }
+
+
+}
+

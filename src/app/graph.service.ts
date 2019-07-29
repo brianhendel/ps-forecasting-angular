@@ -11,6 +11,7 @@ import { AlertsService } from './alerts.service';
 export class GraphService {
 
   private graphClient: Client;
+
   constructor(
     private authService: AuthService,
     private alertsService: AlertsService) {
@@ -36,10 +37,12 @@ export class GraphService {
 
   async getEvents(): Promise<Event[]> {
     try {
+
       let result =  await this.graphClient
         .api('/me/events')
         .select('subject,organizer,start,end,categories')
-        .orderby('createdDateTime DESC')
+        .orderby('start/dateTime DESC')
+        .top(10)
         .get();
 
       return result.value;
