@@ -5,6 +5,8 @@ import { AuthService } from './auth.service';
 import { Event } from '../event';
 import { AlertsService } from './alerts.service';
 
+import * as moment from 'moment-timezone';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -39,10 +41,10 @@ export class GraphService {
     try {
 
       let result =  await this.graphClient
-        .api('/me/calendar/calendarView' + '?startdatetime=2019-07-26T19:43:49.078Z&enddatetime=2019-08-02T19:43:49.078Z')
+        .api('/me/calendar/calendarView' + '?startdatetime=' + moment().startOf('week').format() + '&enddatetime=' + moment().endOf('week').format())
         .select('subject,organizer,start,end,categories')
         .orderby('start/dateTime DESC')
-        .top(100)
+        .top(10)
         .get();
 
       return result.value;

@@ -1,1 +1,16 @@
-<p>admin works!</p>
+<table>
+    <thead>
+        <th>Date Results</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let date of dates">
+          <td>{{date}}</td>
+        </tr>
+      </tbody>
+</table>
+
+<button type="button" (click)="setEDT('week')">Week Button</button>
+
+<button type="button" (click)="setEDT('month')">Month Button</button>
+<p>{{endType}} sDT {{sDT}}</p>
+<p>{{endType}} eDT {{eDT}}</p>
