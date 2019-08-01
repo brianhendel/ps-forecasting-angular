@@ -6,6 +6,7 @@ export class Event {
     start: DateTimeTimeZone;
     end: DateTimeTimeZone;
     categories: string[];
+    duration: number;
   }
   
   // https://docs.microsoft.com/graph/api/resources/recipient?view=graph-rest-1.0

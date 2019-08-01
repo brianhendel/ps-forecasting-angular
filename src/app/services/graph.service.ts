@@ -37,14 +37,14 @@ export class GraphService {
     });
   }
 
-  async getEvents(): Promise<Event[]> {
+  async getEvents(sDT: string, eDT: string): Promise<Event[]> {
     try {
 
       let result =  await this.graphClient
-        .api('/me/calendar/calendarView' + '?startdatetime=' + moment().startOf('week').format() + '&enddatetime=' + moment().endOf('week').format())
+        .api('/me/calendar/calendarView' + '?startdatetime=' + sDT + '&enddatetime=' + eDT)
         .select('subject,organizer,start,end,categories')
         .orderby('start/dateTime DESC')
-        .top(10)
+        .top(1000)
         .get();
 
       return result.value;

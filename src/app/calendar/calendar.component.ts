@@ -4,6 +4,7 @@ import * as moment from 'moment-timezone';
 import { GraphService } from '../services/graph.service';
 import { Event, DateTimeTimeZone } from '../event';
 import { AlertsService } from '../services/alerts.service';
+import { DateService } from '../services/date.service';
 
 @Component({
   selector: 'app-calendar',
@@ -15,11 +16,13 @@ export class CalendarComponent implements OnInit {
   private events: Event[];
 
   constructor(
+    private dateService: DateService,
     private graphService: GraphService,
-    private alertsService: AlertsService) { }
+    private alertsService: AlertsService
+    ) { }
 
-  ngOnInit() {
-    this.graphService.getEvents()
+  ngOnInit() {  
+    this.graphService.getEvents(this.dateService.sDT, this.dateService.eDT)
       .then((events) => {
         this.events = events;
       });

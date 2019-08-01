@@ -1,16 +1,14 @@
-<table>
-    <thead>
-        <th>Date Results</th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let date of dates">
-          <td>{{date}}</td>
-        </tr>
-      </tbody>
-</table>
+<div class="container">
 
-<button type="button" (click)="setEDT('week')">Week Button</button>
+    <button mat-raised-button color='primary' (click)="dateService.setEDT('week')">Next Week Button</button>
+    <button mat-raised-button color='accent' (click)="dateService.setEDT('month')">Next Month Button</button>
+    <button mat-raised-button (click)="dateService.setEDT('quarter')">Next Quarter Button</button>
+    
+    <p>{{dateService.endType}} sDT {{dateService.sDT}}</p>
+    <p>{{dateService.endType}} eDT {{dateService.eDT}}</p>
+    
+    <p>{{dateService.diff}}</p>
+    
+    <button mat-raised-button>Click me!</button>
+</div>
 
-<button type="button" (click)="setEDT('month')">Month Button</button>
-<p>{{endType}} sDT {{sDT}}</p>
-<p>{{endType}} eDT {{eDT}}</p>
