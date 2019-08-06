@@ -1,4 +1,36 @@
-<h1>Calendar - {{dateService.endType}}</h1>
+<br>
+<div>
+  <div class="container">
+    <div fxLayout="column" fxLayoutGap="20px" fxLayout.gt-md="row" fxLayoutAlign="space-around center" class="content">
+      <div class="blocks">
+        <button mat-raised-button color="primary" (click)="refreshTable('week')">Week View</button>
+        <button mat-raised-button color="primary" (click)="refreshTable('month')">Month View</button>
+        <button mat-raised-button color="primary" (click)="refreshTable('quarter')">Quarter View</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="center center" class="content">
+    <mat-card class="card">
+      <mat-card-title>
+        <h3>Calendar</h3>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="example-container mat-elevation-z8">
+          <mat-table #table [dataSource]="dataSource">
+
+          </mat-table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+
+<h1>Calendar</h1>
 <table class="table">
   <thead>
     <th scope="col">Organizer</th>

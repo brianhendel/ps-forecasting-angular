@@ -20,10 +20,10 @@ export class DateService {
     this.endType = endType;
     this.sDT = moment().startOf('week').add(1,'week').format();
     this.eDT = moment().add(1,'week').endOf(endType).format();
-    this.dateDiff(this.eDT, this.sDT)
+    this.dateDiff(this.sDT, this.eDT)
   }
 
-  dateDiff(end: string, start: string) {
+  dateDiff(start: string, end: string) {
     this.diff = moment(end).diff(moment(start), 'hours', true);
     
   }

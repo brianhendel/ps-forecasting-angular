@@ -1,21 +1,25 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
     <mat-nav-list>
-      <a mat-list-item>
+      <a mat-list-item routerLink="/">
         <mat-icon class="icon">home</mat-icon>
         <span class="label">Home</span>
       </a>
-      <a mat-list-item>
+      <a mat-list-item routerLink="/calendar">
         <mat-icon class="icon">dashboard</mat-icon>
         <span class="label">Calendar</span>
       </a>
-      <a mat-list-item>
-        <mat-icon class="icon">input</mat-icon>
-        <span class="label">Login</span>
+      <a mat-list-item routerLink="/admin">
+        <mat-icon class="icon">build</mat-icon>
+        <span class="label">Admin</span>
       </a>
-      <a mat-list-item type="button">
+      <a mat-list-item *ngIf="!authService.authenticated" (click)="signIn()">
         <mat-icon class="icon">input</mat-icon>
-        <span class="label">LogOut</span>
+        <span class="label">Sign In</span>
+      </a>
+      <a mat-list-item *ngIf="authService.authenticated" (click)="signOut()" type="button">
+        <mat-icon class="icon">input</mat-icon>
+        <span class="label">Sign Out</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -27,34 +31,40 @@
         </button>
       </div>
       <div>
-        <a>
-          Material Blog
-        </a>
+          <a routerLink="/">
+            <span class="label">PS Forecasting</span>
+          </a>
       </div>
       <div fxFlex fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
-            <a>
+            <a routerLink="/">
               <mat-icon class="icon">home</mat-icon>
               <span class="label">Home</span>
             </a>
           </li>
           <li>
-            <a>
+            <a routerLink="/calendar">
               <mat-icon class="icon">dashboard</mat-icon>
               <span class="label">Calendar</span>
             </a>
           </li>
           <li>
-            <a>
+              <a routerLink="/admin">
+                <mat-icon class="icon">build</mat-icon>
+                <span class="label">Admin</span>
+              </a>
+            </li>
+          <li>
+            <a *ngIf="!authService.authenticated" (click)="signIn()">
               <mat-icon class="icon">input</mat-icon>
-              <span class="label">Login</span>
+              <span class="label">Sign In</span>
             </a>
           </li>
           <li>
-            <a>
+            <a *ngIf="authService.authenticated" (click)="signOut()" type="button">
               <mat-icon class="icon">input</mat-icon>
-              <span class="label">LogOut</span>
+              <span class="label">Sign Out</span>
             </a>
           </li>
         </ul>

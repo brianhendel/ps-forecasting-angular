@@ -24,6 +24,8 @@ import { AlertsComponent } from './alerts/alerts.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AdminComponent } from './admin/admin.component';
 
+import { GraphService } from './services/graph.service';
+
 library.add(faExternalLinkAlt);
 library.add(faUserCircle);
 
@@ -48,7 +50,7 @@ library.add(faUserCircle);
       clientID: OAuthSettings.appId
     })
   ],
-  providers: [],
+  providers: [GraphService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

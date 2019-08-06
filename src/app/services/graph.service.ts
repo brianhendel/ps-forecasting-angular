@@ -5,13 +5,14 @@ import { AuthService } from './auth.service';
 import { Event } from '../event';
 import { AlertsService } from './alerts.service';
 
-import * as moment from 'moment-timezone';
+import { Observable, of } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class GraphService {
 
+  private eventsGraph: Event[];
   private graphClient: Client;
 
   constructor(
@@ -27,8 +28,7 @@ export class GraphService {
             done(reason, null);
           });
 
-        if (token)
-        {
+        if (token) {
           done(null, token);
         } else {
           done("Could not get an access token", null);
@@ -40,16 +40,21 @@ export class GraphService {
   async getEvents(sDT: string, eDT: string): Promise<Event[]> {
     try {
 
-      let result =  await this.graphClient
+      let result = await this.graphClient
         .api('/me/calendar/calendarView' + '?startdatetime=' + sDT + '&enddatetime=' + eDT)
         .select('subject,organizer,start,end,categories')
         .orderby('start/dateTime DESC')
         .top(1000)
         .get();
 
+      this.eventsGraph = result.value;
       return result.value;
     } catch (error) {
       this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
     }
+  }
+
+  serveData(): Observable<Event[]> {
+    return of<Event[]>(this.eventsGraph)
   }
 }
