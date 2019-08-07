@@ -9,7 +9,8 @@ import {
   MatTabsModule,
   MatSidenavModule,
   MatListModule,
-  MatTableModule
+  MatTableModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 @NgModule({
@@ -22,7 +23,8 @@ import {
     MatTabsModule,  
     MatSidenavModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,

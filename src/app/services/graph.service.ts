@@ -4,20 +4,22 @@ import { Client } from '@microsoft/microsoft-graph-client';
 import { AuthService } from './auth.service';
 import { Event } from '../event';
 import { AlertsService } from './alerts.service';
+import { DateService } from './date.service';
 
-import { Observable, of } from 'rxjs'
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GraphService {
 
-  private eventsGraph: Event[];
+  public eventsGraph: Event[];
   private graphClient: Client;
 
   constructor(
     private authService: AuthService,
-    private alertsService: AlertsService) {
+    private alertsService: AlertsService,
+    private dateService: DateService) {
 
     // Initialize the Graph client
     this.graphClient = Client.init({
@@ -37,15 +39,14 @@ export class GraphService {
     });
   }
 
-  async getEvents(sDT: string, eDT: string): Promise<Event[]> {
+  async getEvents(): Promise<Event[]> {
     try {
-
       let result = await this.graphClient
-        .api('/me/calendar/calendarView' + '?startdatetime=' + sDT + '&enddatetime=' + eDT)
+        .api('/me/calendar/calendarView' + '?startdatetime=' + this.dateService.sDT + '&enddatetime=' + this.dateService.eDT)
         .select('subject,organizer,start,end,categories')
         .orderby('start/dateTime DESC')
         .top(1000)
-        .get();
+        .get(); 
 
       this.eventsGraph = result.value;
       return result.value;
@@ -54,7 +55,9 @@ export class GraphService {
     }
   }
 
-  serveData(): Observable<Event[]> {
+  getData(): Observable<Event[]> {
+    console.log("called getData()")
+    console.log(of<Event[]>(this.eventsGraph))
     return of<Event[]>(this.eventsGraph)
   }
 }

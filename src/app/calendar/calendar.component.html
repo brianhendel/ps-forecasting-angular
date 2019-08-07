@@ -1,51 +1,56 @@
 <br>
 <div>
-  <div class="container">
-    <div fxLayout="column" fxLayoutGap="20px" fxLayout.gt-md="row" fxLayoutAlign="space-around center" class="content">
-      <div class="blocks">
-        <button mat-raised-button color="primary" (click)="refreshTable('week')">Week View</button>
-        <button mat-raised-button color="primary" (click)="refreshTable('month')">Month View</button>
-        <button mat-raised-button color="primary" (click)="refreshTable('quarter')">Quarter View</button>
+  <div>
+    <div>
+      <div class="btn-cust-cont">
+        <button mat-raised-button class="btn-cust-1" color="primary" (click)="refreshTable('week')">Week View</button>
+        <button mat-raised-button class="btn-cust-1" color="primary" (click)="refreshTable('month')">Month View</button>
+        <button mat-raised-button class="btn-cust-1" color="primary" (click)="refreshTable('quarter')">Quarter View</button>
       </div>
     </div>
   </div>
-</div>
-
-<br>
-<div class="container">
-  <div fxLayout="row" fxLayoutAlign="center center" class="content">
-    <mat-card class="card">
-      <mat-card-title>
-        <h3>Calendar</h3>
-      </mat-card-title>
-      <mat-card-content>
-        <div class="example-container mat-elevation-z8">
-          <mat-table #table [dataSource]="dataSource">
-
-          </mat-table>
+  <br>
+  <div>
+    <div>
+      <mat-card class="card">
+        <div class="calendar-title-spacer">
+          <div class="calendar-title">
+            <div>Calendar</div>
+          </div>
+        </div> 
+        <div>
+          <div class="example-container mat-elevation-z8">
+            <mat-table #table [dataSource]="dataSource">
+              <ng-container matColumnDef="organizer">
+                <mat-header-cell *matHeaderCellDef>Organizer</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.organizer.emailAddress.name}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="subject">
+                <mat-header-cell *matHeaderCellDef>Subject</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.subject}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="start">
+                <mat-header-cell *matHeaderCellDef>Start</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.start.dateTime | date:'short' }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="end">
+                <mat-header-cell *matHeaderCellDef>End</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.end.dateTime | date:'short' }}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="categories">
+                <mat-header-cell *matHeaderCellDef>Categories</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.categories}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="duration">
+                  <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.duration}}</mat-cell>
+                </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+          </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </mat-card>
+    </div>
   </div>
 </div>
-
-
-<h1>Calendar</h1>
-<table class="table">
-  <thead>
-    <th scope="col">Organizer</th>
-    <th scope="col">Subject</th>
-    <th scope="col">Start</th>
-    <th scope="col">End</th>
-    <th scope="col">Categories</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let event of events">
-      <td>{{event.organizer.emailAddress.name}}</td>
-      <td>{{event.subject}}</td>
-      <td>{{formatDateTimeTimeZone(event.start) | date:'short' }}</td>
-      <td>{{formatDateTimeTimeZone(event.end) | date: 'short' }}</td>
-      <td>{{event.categories}}</td>
-    </tr>
-  </tbody>
-</table>

@@ -1,0 +1,50 @@
+.card {
+    width: 90%;
+    margin: auto;
+    border: 1px solid rgba (0,0,0,.03);
+    box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+  }
+  
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    min-width: 100%;
+  }
+  
+  .mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  
+  a {
+    cursor: pointer;
+  }
+
+  .mat-header-cell {
+    font-size: 14px;
+  }
+
+  .btn-cust-1 {
+    margin: 10px;
+  }
+
+  .btn-cust-cont {
+    text-align: center;
+  }
+
+  .calendar-title-spacer {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 8px 20px;
+  }
+
+  .calendar-title {
+    display: block;
+    flex: 1 1 auto;
+    color: rgba(0,0,0,.54);
+    font-size: 24px;
+    font-weight: bold;
+  }

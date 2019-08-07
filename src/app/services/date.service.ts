@@ -13,10 +13,10 @@ export class DateService {
   public diff: number;
 
   constructor() {
-    this.setEDT('week');
+    this.setEndType('week');
    }
 
-  setEDT(endType: string) {
+  setEndType(endType: string) {
     this.endType = endType;
     this.sDT = moment().startOf('week').add(1,'week').format();
     this.eDT = moment().add(1,'week').endOf(endType).format();
