@@ -44,7 +44,7 @@ export class GraphService {
       let result = await this.graphClient
         .api('/me/calendar/calendarView' + '?startdatetime=' + this.dateService.sDT + '&enddatetime=' + this.dateService.eDT)
         .select('subject,organizer,start,end,categories')
-        .orderby('start/dateTime DESC')
+        .orderby('start/dateTime ASC')
         .top(1000)
         .get(); 
 
@@ -53,11 +53,5 @@ export class GraphService {
     } catch (error) {
       this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
     }
-  }
-
-  getData(): Observable<Event[]> {
-    console.log("called getData()")
-    console.log(of<Event[]>(this.eventsGraph))
-    return of<Event[]>(this.eventsGraph)
   }
 }

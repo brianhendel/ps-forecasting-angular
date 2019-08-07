@@ -5,7 +5,8 @@
       <div class="btn-cust-cont">
         <button mat-raised-button class="btn-cust-1" color="primary" (click)="refreshTable('week')">Week View</button>
         <button mat-raised-button class="btn-cust-1" color="primary" (click)="refreshTable('month')">Month View</button>
-        <button mat-raised-button class="btn-cust-1" color="primary" (click)="refreshTable('quarter')">Quarter View</button>
+        <button mat-raised-button class="btn-cust-1" color="primary" (click)="refreshTable('quarter')">Quarter
+          View</button>
       </div>
     </div>
   </div>
@@ -17,37 +18,42 @@
           <div class="calendar-title">
             <div>Calendar</div>
           </div>
-        </div> 
+        </div>
         <div>
-          <div class="example-container mat-elevation-z8">
-            <mat-table #table [dataSource]="dataSource">
+          <mat-form-field class="filter">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          </mat-form-field>
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource">
               <ng-container matColumnDef="organizer">
-                <mat-header-cell *matHeaderCellDef>Organizer</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.organizer.emailAddress.name}}</mat-cell>
+                <th mat-header-cell *matHeaderCellDef>Organizer</th>
+                <td mat-cell *matCellDef="let element">{{element.organizer.emailAddress.name}}</td>
               </ng-container>
               <ng-container matColumnDef="subject">
-                <mat-header-cell *matHeaderCellDef>Subject</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.subject}}</mat-cell>
+                <th mat-header-cell *matHeaderCellDef>Subject</th>
+                <td mat-cell *matCellDef="let element">{{element.subject}}</td>
               </ng-container>
               <ng-container matColumnDef="start">
-                <mat-header-cell *matHeaderCellDef>Start</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.start.dateTime | date:'short' }}</mat-cell>
+                <th mat-header-cell *matHeaderCellDef>Start</th>
+                <td mat-cell *matCellDef="let element">{{formatDateTimeTimeZone(element.start) | date:'short' }}</td>
               </ng-container>
               <ng-container matColumnDef="end">
-                <mat-header-cell *matHeaderCellDef>End</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.end.dateTime | date:'short' }}</mat-cell>
+                <th mat-header-cell *matHeaderCellDef>End</th>
+                <td mat-cell *matCellDef="let element">{{formatDateTimeTimeZone(element.end) | date:'short' }}</td>
               </ng-container>
               <ng-container matColumnDef="categories">
-                <mat-header-cell *matHeaderCellDef>Categories</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.categories}}</mat-cell>
+                <th mat-header-cell *matHeaderCellDef>Categories</th>
+                <td mat-cell *matCellDef="let element">{{element.categories}}</td>
               </ng-container>
               <ng-container matColumnDef="duration">
-                  <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-                  <mat-cell *matCellDef="let element">{{element.duration}}</mat-cell>
-                </ng-container>
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
+                <th mat-header-cell *matHeaderCellDef>Duration</th>
+                <td style="text-align: right" mat-cell *matCellDef="let element">{{element.duration | number: '1.2-2'}}
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10,25,50]" showFirstLastButtons></mat-paginator>
           </div>
         </div>
       </mat-card>

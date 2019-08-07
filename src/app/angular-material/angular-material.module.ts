@@ -9,9 +9,14 @@ import {
   MatTabsModule,
   MatSidenavModule,
   MatListModule,
-  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatFormFieldModule,
+  MatInputModule,
   MatProgressSpinnerModule
 } from '@angular/material';
+
+import { MatTableModule } from '@angular/material/table'
 
 @NgModule({
   imports: [
@@ -24,6 +29,10 @@ import {
     MatSidenavModule,
     MatListModule,
     MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatProgressSpinnerModule
   ],
   exports: [
@@ -32,10 +41,15 @@ import {
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
-    MatTabsModule,
+    MatTabsModule,  
     MatSidenavModule,
     MatListModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
   ]
 })
 
