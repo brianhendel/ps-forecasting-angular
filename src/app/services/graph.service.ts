@@ -3,6 +3,8 @@ import { Client } from '@microsoft/microsoft-graph-client';
 
 import { AuthService } from './auth.service';
 import { Event } from '../event';
+//import { Calendar } from '../calendar';
+
 import { AlertsService } from './alerts.service';
 import { DateService } from './date.service';
 
@@ -54,4 +56,19 @@ export class GraphService {
       this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
     }
   }
+
+  // async getCalendars(): Promise<Calendar[]> {
+  //   try {
+  //     let result = await this.graphClient
+  //       .api('/me/calendars')
+  //       .select('name,owner,canEdit,canViewPrivateItems')
+  //       .top(100)
+  //       .get();
+  // 
+  //     this.calendarsGraph = result.value
+  //     return result.value;
+  //   } catch (error) {
+  //     this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
+  //   }
+  // }
 }
