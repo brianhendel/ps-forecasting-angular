@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,7 +41,8 @@ library.add(faUserCircle);
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,      
+    BrowserAnimationsModule,     
+    FormsModule,
     AngularMaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
