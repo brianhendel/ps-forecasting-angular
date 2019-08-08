@@ -1,10 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment-timezone';
-
-import { GraphService } from '../services/graph.service';
-import { Event, DateTimeTimeZone } from '../event';
-import { AlertsService } from '../services/alerts.service';
-import { DateService } from '../services/date.service';
 import { Observable, of, from } from 'rxjs';
 
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +8,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
+import { GraphService } from '../services/graph.service';
+import { AlertsService } from '../services/alerts.service';
+import { DateService } from '../services/date.service';
+import { ProgressBarService } from '../services/progress-bar.service';
+import { Event, DateTimeTimeZone } from '../event';
 
 @Component({
   selector: 'app-calendar',
@@ -24,7 +25,8 @@ export class CalendarComponent implements OnInit {
   constructor(
     private graphService: GraphService,
     private dateService: DateService,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
+    private progressBarService: ProgressBarService,
   ) {
     this.dataSource = new MatTableDataSource()
   }
@@ -42,12 +44,15 @@ export class CalendarComponent implements OnInit {
   }
 
   refreshTable(endType: string) {
+    this.progressBarService.showBar();
     this.dateService.setEndType(endType);
     this.graphService.getEvents()
       .then((events) => {
         this.dataSource.data = events;
         this.calcDuration();
         console.log("Updated eventsGraph with " + this.graphService.eventsGraph.length + " events")
+        this.dataSource.paginator.firstPage();
+        this.progressBarService.hideBar();
       })
   }
 

@@ -13,7 +13,9 @@ import {
   MatSortModule,
   MatFormFieldModule,
   MatInputModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatProgressBarModule,
+  MatSelectModule,
 } from '@angular/material';
 
 import { MatTableModule } from '@angular/material/table'
@@ -33,7 +35,9 @@ import { MatTableModule } from '@angular/material/table'
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatSelectModule
   ],
   exports: [
     MatButtonModule,
@@ -50,6 +54,8 @@ import { MatTableModule } from '@angular/material/table'
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatSelectModule
   ]
 })
 
