@@ -57,6 +57,10 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  getTotalDuration() {
+    return this.dataSource.filteredData.map(d => d.duration).reduce((acc, value) => acc + value, 0)
+  }
+
   formatDateTimeTimeZone(dateTime: DateTimeTimeZone): string {
     try {
       return moment.tz(dateTime.dateTime, dateTime.timeZone).format();
@@ -72,6 +76,7 @@ export class CalendarComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+    this.getTotalDuration();
   }
 
   filterSetup() {

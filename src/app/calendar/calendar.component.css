@@ -47,3 +47,13 @@
     font-size: 14px;
     width: 100%;
   }
+
+  .mat-header-cell {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .mat-footer-cell {
+    font-weight: bold;
+    background: #bce5ff;
+  }

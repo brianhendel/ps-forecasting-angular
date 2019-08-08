@@ -1,12 +1,12 @@
-<div class="jumbotron">
-    <h1>Omatic PS Forecasting</h1>
-    <div *ngIf="authService.authenticated; then welcomeUser else signInPrompt"></div>
-    <ng-template #welcomeUser>
-      <h4>Welcome {{ authService.user.displayName }}!</h4>
-      <p>Use the navigation bar at the top of the page to get started.</p>
+<mat-card class="card">
+  <h1>Omatic PS Forecasting</h1>
+  <div *ngIf="authService.authenticated; then welcomeUser else signInPrompt"></div>
+  <ng-template #welcomeUser>
+    <h4>Welcome {{ authService.user.displayName }}!</h4>
+    <p>Use the navigation bar at the top of the page to get started.</p>
 
-    </ng-template>
-    <ng-template #signInPrompt>
-      <a href="javascript:undefined" class="btn btn-primary btn-large" role="button" (click)="signIn()">Click here to sign in</a>
-    </ng-template>
-  </div>
+  </ng-template>
+  <ng-template #signInPrompt>
+    <button mat-raised-button color="primary" (click)="signIn()">Click here to sign in!</button>
+  </ng-template>
+</mat-card>
