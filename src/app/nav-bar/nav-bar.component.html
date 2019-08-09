@@ -9,6 +9,10 @@
         <mat-icon class="icon">dashboard</mat-icon>
         <span class="label">Calendar</span>
       </a>
+      <a mat-list-item routerLink="/report">
+        <mat-icon class="icon">view_list</mat-icon>
+        <span class="label">Report</span>
+      </a>
       <a mat-list-item routerLink="/admin">
         <mat-icon class="icon">build</mat-icon>
         <span class="label">Admin</span>
@@ -26,14 +30,14 @@
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <div fxHide.gt-xs>
-        <button mat-icon-button>
+        <button mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
       </div>
       <div>
-          <a routerLink="/">
-            <span class="label label-title">Omatic PS Forecasting</span>
-          </a>
+        <a routerLink="/">
+          <span class="label label-title">Omatic PS Forecasting</span>
+        </a>
       </div>
       <div fxFlex fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
@@ -50,11 +54,17 @@
             </a>
           </li>
           <li>
-              <a routerLink="/admin">
-                <mat-icon class="icon">build</mat-icon>
-                <span class="label">Admin</span>
-              </a>
-            </li>
+            <a routerLink="/report">
+              <mat-icon class="icon">view_list</mat-icon>
+              <span class="label">Report</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/admin">
+              <mat-icon class="icon">build</mat-icon>
+              <span class="label">Admin</span>
+            </a>
+          </li>
           <li>
             <a *ngIf="!authService.authenticated" (click)="signIn()">
               <mat-icon class="icon">input</mat-icon>

@@ -25,3 +25,17 @@ export class Event {
     dateTime: string;
     timeZone: string;
   }
+
+  export class EventHolder {
+    name: string;
+    eventArray: Event[];
+  }
+
+  export class ReportRow {
+    name: string;
+    result: number[]
+  }
+
+  export class ReportArray {
+    reportData: ReportRow[];
+  }

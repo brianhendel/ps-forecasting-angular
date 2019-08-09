@@ -27,6 +27,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { AdminComponent } from './admin/admin.component';
 
 import { GraphService } from './services/graph.service';
+import { ReportComponent } from './report/report.component';
 
 library.add(faExternalLinkAlt);
 library.add(faUserCircle);
@@ -38,7 +39,8 @@ library.add(faUserCircle);
     HomeComponent,
     AlertsComponent,
     CalendarComponent,
-    AdminComponent
+    AdminComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,

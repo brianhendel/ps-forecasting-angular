@@ -1,18 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment-timezone';
-import { Observable, of, from } from 'rxjs';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 import { GraphService } from '../services/graph.service';
 import { AlertsService } from '../services/alerts.service';
 import { DateService } from '../services/date.service';
 import { ProgressBarService } from '../services/progress-bar.service';
+
 import { Event, DateTimeTimeZone } from '../event';
 
 @Component({
@@ -26,13 +25,13 @@ export class CalendarComponent implements OnInit {
     private graphService: GraphService,
     private dateService: DateService,
     private alertsService: AlertsService,
-    private progressBarService: ProgressBarService,
+    private progressBarService: ProgressBarService
   ) {
     this.dataSource = new MatTableDataSource()
   }
 
   displayedColumns: string[] = ['organizer', 'subject', 'start', 'end', 'categories', 'duration'];
-  dataSource: MatTableDataSource<Event>;
+  private dataSource: MatTableDataSource<Event>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -83,7 +82,7 @@ export class CalendarComponent implements OnInit {
     }
     this.getTotalDuration();
   }
-
+  
   filterSetup() {
     this.dataSource.filterPredicate = (data, filter: string)  => {
       const accumulator = (currentTerm, key) => {
