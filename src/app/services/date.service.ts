@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms'
+import { FormControl, Validators } from '@angular/forms'
 
 import * as moment from 'moment-timezone';
 
@@ -9,35 +9,61 @@ import * as moment from 'moment-timezone';
 export class DateService {
 
   public endType: string;
+  public activeView: string;
   public sDT: string;
   public eDT: string;
   public diff: number;
 
-  viewControl = new FormControl('',[Validators.required])
+  viewControl = new FormControl('', [Validators.required])
   selectFormControl = new FormControl('', Validators.required)
   public views: View[] = [
-    {value: 'week', viewValue: 'Week'},
-    {value: 'month', viewValue: 'Month'},
-    {value: 'quarter', viewValue: 'Quarter'}
+    { value: 'thisWeek', viewValue: 'This Week' },
+    { value: 'nextWeek', viewValue: 'Next Week' },
+    { value: 'thisMonth', viewValue: 'This Month' },
+    { value: 'thisQuarter', viewValue: 'This Quarter' }
   ]
 
   constructor() {
-    this.setEndType('week');
+    this.setEndType('thisWeek');
   }
 
   setEndType(endType: string) {
-    this.endType = endType;
-    this.sDT = moment().startOf('week').add(1, 'week').format();
-    this.eDT = moment().add(1, 'week').endOf(endType).format();
-    this.dateDiff(this.sDT, this.eDT)
+    switch (endType) {
+      case 'thisWeek': {
+        this.sDT = moment().startOf('week').format();
+        this.eDT = moment().endOf('week').format();
+        this.activeView = "This Week"
+        break
+      }
+
+      case 'nextWeek': {
+        this.sDT = moment().startOf('week').add(1, 'week').format();
+        this.eDT = moment().add(1, 'week').endOf('week').format();
+        this.activeView = "Next Week"
+        break
+      }
+
+      case 'thisMonth': {
+        this.sDT = moment().startOf('week').add(1, 'week').format();
+        this.eDT = moment().add(1, 'week').endOf('month').format();
+        this.activeView = "This Month"
+        break
+      }
+
+      case 'thisQuarter': {
+        this.sDT = moment().startOf('week').add(1, 'week').format();
+        this.eDT = moment().add(1, 'week').endOf('quarter').format();
+        this.activeView = "This Quarter"
+        break
+      }
+    }
   }
 
   dateDiff(start: string, end: string) {
     this.diff = moment(end).diff(moment(start), 'hours', true);
-
   }
-
 }
+
 export interface View {
   value: string;
   viewValue: string;

@@ -31,7 +31,6 @@ export class ReportComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['category', 'week-duration', 'month-duration', 'quarter-duration'];
-  private dateArray: string[] = ['week', 'month', 'quarter'];
   private dataSource: MatTableDataSource<Event[]>;
   private eventHolder: EventHolder[];
   private reportArray: ReportArray;
@@ -50,11 +49,11 @@ export class ReportComponent implements OnInit {
   getData() {
     this.progressBarService.showBar();
     this.clearArray();
-    this.dateArray.forEach(element => {
-      this.dateService.setEndType(element.valueOf())
+    this.dateService.views.forEach(element => {
+      this.dateService.setEndType(element.value)
       this.graphService.getEvents()
       .then((events) => {
-        this.eventHolder.push({ name: element, eventArray: events })
+        this.eventHolder.push({ name: element.value, eventArray: events })
       });
     })
     console.log(this.eventHolder)

@@ -36,7 +36,7 @@ export class CalendarComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   ngOnInit() {
-    this.refreshTable('week')
+    this.refreshTable('thisWeek')
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.filterSetup();

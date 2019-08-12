@@ -1,5 +1,5 @@
 <mat-card class="card">
-  <h1>Omatic PS Forecasting</h1>
+  <h1>PS Forecasting</h1>
   <div *ngIf="authService.authenticated; then welcomeUser else signInPrompt"></div>
   <ng-template #welcomeUser>
     <h4>Welcome {{ authService.user.displayName }}!</h4>
