@@ -20,6 +20,7 @@ export class DateService {
     { value: 'thisWeek', viewValue: 'This Week' },
     { value: 'nextWeek', viewValue: 'Next Week' },
     { value: 'thisMonth', viewValue: 'This Month' },
+    { value: 'nextMonth', viewValue: 'Next Month' },    
     { value: 'thisQuarter', viewValue: 'This Quarter' }
   ]
 
@@ -44,9 +45,16 @@ export class DateService {
       }
 
       case 'thisMonth': {
-        this.sDT = moment().startOf('week').add(1, 'week').format();
-        this.eDT = moment().add(1, 'week').endOf('month').format();
+        this.sDT = moment().startOf('month').format();
+        this.eDT = moment().endOf('month').format();
         this.activeView = "This Month"
+        break
+      }
+
+      case 'nextMonth': {
+        this.sDT = moment().add(1, 'month').startOf('month').format();
+        this.eDT = moment().add(1, 'month').endOf('month').format();
+        this.activeView = "Next Month"
         break
       }
 
@@ -59,8 +67,13 @@ export class DateService {
     }
   }
 
+  reportDates() {
+
+  }
+
   dateDiff(start: string, end: string) {
     this.diff = moment(end).diff(moment(start), 'hours', true);
+    return moment(end).diff(moment(start), 'hours', true);
   }
 }
 

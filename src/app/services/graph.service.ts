@@ -57,6 +57,23 @@ export class GraphService {
     }
   }
 
+  async getReport(calendar: string, start: string, end: string): Promise<Event[]> {
+    try {
+      let result = await this.graphClient
+      //temporary 'me' until calendars is worked out
+        .api('/' + 'me' + '/calendar/calendarView' + '?startdatetime=' + start + '&enddatetime=' + end)
+        .select('subject,organizer,start,end,categories')
+        .orderby('start/dateTime ASC')
+        .top(1000)
+        .get(); 
+
+      this.eventsGraph = result.value;
+      return result.value;
+    } catch (error) {
+      this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
+    }
+  }
+
   // async getCalendars(): Promise<Calendar[]> {
   //   try {
   //     let result = await this.graphClient

@@ -59,3 +59,88 @@ body {
   word-break: break-all;
   white-space: pre-wrap;
 }
+
+.card {
+  width: 90%;
+  margin: auto;
+  border: 1px solid rgba (0,0,0,.03);
+  box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+  width: 90%;
+}
+.example-container {
+  display: flex;
+  flex-direction: row;
+  min-width: 100%;
+}
+
+a {
+  cursor: pointer;
+}
+
+.btn-cust-1 {
+  margin: 10px;
+}
+
+.btn-cust-cont {
+  text-align: center;
+}
+
+.calendar-title-spacer {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 2px 20px;
+}
+
+.calendar-title {
+  display: flex;
+  flex: 1 1 auto;
+  color: rgba(0,0,0,.54);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  padding-top: 0px;
+}
+
+.mat-header-cell {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.mat-footer-cell {
+  font-weight: bold;
+  background: #3f51b5;
+  color: white;
+  font-size: 16px;
+}
+
+
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
+  text-align: center;
+}
+
+.progbar-cont {
+  min-height: 10px;
+}
+
+.view-box {
+  max-width: 125px;
+  display: inline;
+  background: #edf0ff;
+}
+
+.right-align {
+  text-align: right;
+  font-weight: bold;
+  color: rgba(0,0,0,.54);
+  display: inline;
+}

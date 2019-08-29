@@ -12,7 +12,7 @@ import { AlertsService } from '../services/alerts.service';
 import { DateService } from '../services/date.service';
 import { ProgressBarService } from '../services/progress-bar.service';
 
-import { Event, EventHolder, ReportRow, ReportArray } from '../event';
+import { Event, EventHolder, ReportRow } from '../event';
 
 @Component({
   selector: 'app-report',
@@ -27,59 +27,77 @@ export class ReportComponent implements OnInit {
     private alertsService: AlertsService,
     private progressBarService: ProgressBarService,
   ) {
-    this.dataSource = new MatTableDataSource()
+    this.reportDataSource = new MatTableDataSource()
   }
 
-  displayedColumns: string[] = ['category', 'week-duration', 'month-duration', 'quarter-duration'];
-  private dataSource: MatTableDataSource<Event[]>;
+  displayedColumns: string[] = ['category'] //, 'month0', 'month1', 'month2', 'quarter0', 'quarter1'];
+  approvedCats: string[] = ['Blue category']
+  //'Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Approved Non-Utilization', 'Sales SUpport'];
+  private reportDataSource: MatTableDataSource<ReportRow>;
+  private reportArray: ReportRow[] = [];
   private eventHolder: EventHolder[];
-  private reportArray: ReportArray;
-  private catArray: string[] = ['test']
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 
   ngOnInit() {
-    this.getData()
-    //this.findCat();
-    //this.calcResults();
-  }
-  
-  getData() {
-    this.progressBarService.showBar();
-    this.clearArray();
-    this.dateService.views.forEach(element => {
-      this.dateService.setEndType(element.value)
-      this.graphService.getEvents()
-      .then((events) => {
-        this.eventHolder.push({ name: element.value, eventArray: events })
-      });
-    })
-    console.log(this.eventHolder)
-    this.progressBarService.hideBar();
+    this.reportDataSource.paginator = this.paginator;
+    this.reportDataSource.sort = this.sort;
+    this.buildEventHolder()
+    this.runReport()
   }
 
-  findCat() {
-    this.eventHolder.forEach(e1 => {
-      e1.eventArray.forEach(e2 => {
-        e2.categories.forEach(e3 => {
-          this.catArray.push(e3.toString())
-        });
-      });
-    });
-    console.log(this.catArray)
-    this.catArray = Array.from(new Set(this.catArray))
-    console.log(this.catArray)
+  buildEventHolder() {
+    this.eventHolder = [
+      { name: 'month0', displayName: moment().startOf('month').format('MMMM YYYY'), start: moment().startOf('month').format(), end: moment().endOf('month').format(), eventArray: [] },
+      { name: 'month1', displayName: moment().add(1, 'month').startOf('month').format('MMMM YYYY'), start: moment().add(1, 'month').startOf('month').format(), end: moment().add(1, 'month').endOf('month').format(), eventArray: [] },
+      { name: 'month2', displayName: moment().add(2, 'month').startOf('month').format('MMMM YYYY'), start: moment().add(2, 'month').startOf('month').format(), end: moment().add(2, 'month').endOf('month').format(), eventArray: [] },
+      { name: 'quarter0', displayName: 'Q' + moment().quarter(), start: moment().startOf('quarter').format(), end: moment().endOf('quarter').format(), eventArray: [] },
+      { name: 'quarter1', displayName: 'Q' + moment().add(1, 'quarter').quarter(), start: moment().add(1, 'quarter').startOf('quarter').format(), end: moment().add(1, 'quarter').endOf('quarter').format(), eventArray: [] },
+    ]
+  }
+
+  runReport() {
+    this.progressBarService.showBar();
+    this.eventHolder.forEach(element => {
+      //temporarily 'me'
+      this.graphService.getReport('me', element.start, element.end)
+        .then((events) => {
+          element.eventArray = events;
+          this.calcDuration(element.eventArray);
+          this.progressBarService.hideBar();
+        })
+      })
+      this.calcResults();
+      console.log(this.eventHolder);
+
+      console.log(this.reportArray)
   }
 
   calcResults() {
+    this.approvedCats.forEach(cat => {
+      this.reportArray.push({ category: cat, result: this.calcData(cat) }
+      )
+    })
+  }
+
+  calcData(cat: string) {
+    let rowData: number[] = [];
+    this.eventHolder.forEach(group => {
+      rowData.push(group.eventArray
+        .filter(group => group.categories.includes(cat))
+        .reduce((acc, group) => acc + group.duration, 0)
+      )
+    })
+    console.log(this.reportDataSource)
+    return rowData
 
   }
 
-  clearArray() {
-    this.eventHolder = [];
-    this.reportArray = { reportData: [] };
-    this.catArray = [];
+  calcDuration(eventArray: Event[]) {
+    eventArray.forEach(event => {
+      event.duration = this.dateService.dateDiff(event.start.dateTime, event.end.dateTime)
+    })
   }
 }

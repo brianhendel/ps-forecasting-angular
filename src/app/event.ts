@@ -28,14 +28,13 @@ export class Event {
 
   export class EventHolder {
     name: string;
+    displayName: string;
+    start: string;
+    end: string;
     eventArray: Event[];
   }
 
   export class ReportRow {
-    name: string;
+    category: string;
     result: number[]
-  }
-
-  export class ReportArray {
-    reportData: ReportRow[];
   }
