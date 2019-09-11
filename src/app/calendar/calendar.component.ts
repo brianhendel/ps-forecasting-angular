@@ -61,7 +61,7 @@ export class CalendarComponent implements OnInit {
   createBillableList() {
     let billable = [];
     this.dataSource.data.forEach(data => {
-      if (data.categories.includes("Blue category")) {
+      if (data.categories.includes("Confirmed Utilization")) {
         billable.push(data)
       }
     })
