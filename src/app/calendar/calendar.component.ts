@@ -31,6 +31,8 @@ export class CalendarComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['organizer', 'subject', 'start', 'end', 'categories', 'duration'];
+  private billableOnly = []
+  private billableStatus: boolean = false
   private dataSource: MatTableDataSource<Event>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -52,7 +54,24 @@ export class CalendarComponent implements OnInit {
         console.log("Updated eventsGraph with " + this.graphService.eventsGraph.length + " events")
         this.dataSource.paginator.firstPage();
         this.progressBarService.hideBar();
+        this.createBillableList();
       })
+  }
+
+  createBillableList() {
+    let billable = [];
+    this.dataSource.data.forEach(data => {
+      if (data.categories.includes("Blue category")) {
+        billable.push(data)
+      }
+    })
+    this.billableOnly = billable;
+    console.log(billable)
+  }
+
+  setBillable() {
+    //Original data never saved - this is one-way
+    this.dataSource.data = this.billableOnly
   }
 
   calcDuration() {

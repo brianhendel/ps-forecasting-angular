@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Client } from '@microsoft/microsoft-graph-client';
 
 import { AuthService } from './auth.service';
-import { Event } from '../event';
+import { Event, EventHolder } from '../event';
 //import { Calendar } from '../calendar';
 
 import { AlertsService } from './alerts.service';
 import { DateService } from './date.service';
 
 import { Observable, of } from 'rxjs';
+import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,7 @@ export class GraphService {
         .select('subject,organizer,start,end,categories')
         .orderby('start/dateTime ASC')
         .top(1000)
-        .get(); 
+        .get();
 
       this.eventsGraph = result.value;
       return result.value;
@@ -57,17 +58,27 @@ export class GraphService {
     }
   }
 
-  async getReport(calendar: string, start: string, end: string): Promise<Event[]> {
+  async getReport(calendar: string, eventHolder: EventHolder[]): Promise<EventHolder[]> {
+    try {
+      eventHolder.forEach(view =>
+        this.getReportEvents(view)
+          .then((events) => view.eventArray = events
+          ));
+      return eventHolder;
+    }
+    catch (error) {
+      this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
+    }
+  }
+
+  async getReportEvents(view: EventHolder) {
     try {
       let result = await this.graphClient
-      //temporary 'me' until calendars is worked out
-        .api('/' + 'me' + '/calendar/calendarView' + '?startdatetime=' + start + '&enddatetime=' + end)
+        .api('/me/calendar/calendarView' + '?startdatetime=' + view.start + '&enddatetime=' + view.end)
         .select('subject,organizer,start,end,categories')
         .orderby('start/dateTime ASC')
         .top(1000)
-        .get(); 
-
-      this.eventsGraph = result.value;
+        .get();
       return result.value;
     } catch (error) {
       this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));

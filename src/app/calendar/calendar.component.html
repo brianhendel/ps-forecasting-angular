@@ -5,6 +5,7 @@
       <div class="calendar-title">
         <div>{{"Calendar  - " + this.dateService.activeView | titlecase }}</div>
       </div>
+      <button mat-raised-button color="primary" (click)="setBillable()">Billable Only</button>
       <mat-card class="card view-box">
         <mat-card-content>
           <mat-form-field>

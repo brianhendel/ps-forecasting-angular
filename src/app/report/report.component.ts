@@ -30,9 +30,8 @@ export class ReportComponent implements OnInit {
     this.reportDataSource = new MatTableDataSource()
   }
 
-  displayedColumns: string[] = ['category'] //, 'month0', 'month1', 'month2', 'quarter0', 'quarter1'];
-  approvedCats: string[] = ['Blue category']
-  //'Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Approved Non-Utilization', 'Sales SUpport'];
+  displayedColumns: string[] = ['category', 'month0', 'month1', 'month2', 'quarter0', 'quarter1'];
+  approvedCats: string[] = ['Blue category', 'Orange category'] //'Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Approved Non-Utilization', 'Sales SUpport'];
   private reportDataSource: MatTableDataSource<ReportRow>;
   private reportArray: ReportRow[] = [];
   private eventHolder: EventHolder[];
@@ -60,22 +59,20 @@ export class ReportComponent implements OnInit {
 
   runReport() {
     this.progressBarService.showBar();
-    this.eventHolder.forEach(element => {
-      //temporarily 'me'
-      this.graphService.getReport('me', element.start, element.end)
-        .then((events) => {
-          element.eventArray = events;
-          this.calcDuration(element.eventArray);
-          this.progressBarService.hideBar();
-        })
+    this.graphService.getReport('me', this.eventHolder)
+      .then((result) => {
+        this.eventHolder = result;
+        console.log(this.eventHolder);
+        this.calcResults()
+        console.log("reportArray")
+        console.log(this.reportArray);
+        this.reportDataSource.data = this.reportArray;
+        this.progressBarService.hideBar();
       })
-      this.calcResults();
-      console.log(this.eventHolder);
-
-      console.log(this.reportArray)
   }
 
   calcResults() {
+    this.reportArray = [];
     this.approvedCats.forEach(cat => {
       this.reportArray.push({ category: cat, result: this.calcData(cat) }
       )
@@ -90,7 +87,7 @@ export class ReportComponent implements OnInit {
         .reduce((acc, group) => acc + group.duration, 0)
       )
     })
-    console.log(this.reportDataSource)
+    console.log(rowData)
     return rowData
 
   }

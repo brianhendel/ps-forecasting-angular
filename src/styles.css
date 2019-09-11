@@ -133,7 +133,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 }
 
 .view-box {
-  max-width: 125px;
+  max-width: 130px;
   display: inline;
   background: #edf0ff;
 }

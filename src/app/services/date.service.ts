@@ -20,7 +20,8 @@ export class DateService {
     { value: 'thisWeek', viewValue: 'This Week' },
     { value: 'nextWeek', viewValue: 'Next Week' },
     { value: 'thisMonth', viewValue: 'This Month' },
-    { value: 'nextMonth', viewValue: 'Next Month' },    
+    { value: 'nextMonth', viewValue: 'Next Month' },
+    { value: 'nextMonth2', viewValue: 'Month After Next' },        
     { value: 'thisQuarter', viewValue: 'This Quarter' }
   ]
 
@@ -55,6 +56,13 @@ export class DateService {
         this.sDT = moment().add(1, 'month').startOf('month').format();
         this.eDT = moment().add(1, 'month').endOf('month').format();
         this.activeView = "Next Month"
+        break
+      }
+
+      case 'nextMonth2': {
+        this.sDT = moment().add(2, 'month').startOf('month').format();
+        this.eDT = moment().add(2, 'month').endOf('month').format();
+        this.activeView = "Month After Next"
         break
       }
 
