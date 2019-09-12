@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Client } from '@microsoft/microsoft-graph-client';
+import { Client, GraphRequest, ResponseType } from '@microsoft/microsoft-graph-client';
 
 import { AuthService } from './auth.service';
 import { Event, EventHolder } from '../event';
@@ -18,6 +18,14 @@ export class GraphService {
 
   public eventsGraph: Event[];
   private graphClient: Client;
+  private defaults = {
+    basePath: 'https://graph.microsoft.com/v1.0/',
+    calendarPath: '/calendar/calendarView',
+    batchPath: 'https://graph.microsoft.com/v1.0/$batch',
+    select: 'subject,organizer,start,end,categories',
+    orderBy: 'start/dateTime ASC',
+    top: '1000'
+  }
 
   constructor(
     private authService: AuthService,
@@ -58,32 +66,48 @@ export class GraphService {
     }
   }
 
-  async getReport(calendar: string, eventHolder: EventHolder[]): Promise<EventHolder[]> {
+  getReport(calendar: string, eventHolder: EventHolder[]): EventHolder[] {
+    let result: EventHolder[] = [];
+    let urls: string[] = [];
+    eventHolder.forEach(view => {
+      urls.push(this.buildUrl(calendar, view))
+    })
+    console.log(urls)
+    this.batch(urls)
+
+    return result
+  }
+
+  buildUrl(calendar: string, view: EventHolder) {
+    let url: string;
+    url = '/' + calendar + this.defaults.calendarPath + '?startdatetime=' + view.start + '&enddatetime=' + view.end + '&$select=' + this.defaults.select + '&$orderby=' + this.defaults.orderBy + '&$top=' + this.defaults.top;
+    return url;
+  }
+
+  batch(urls: string[]) {
+    let batch = { requests: [] };
+    let i = 1;
+    urls.forEach(u => {
+      batch.requests.push({ id: i, method: 'GET', url: u })
+      i++
+    })
+    console.log(batch)
+    this.getBatch(batch)
+  }
+
+  async getBatch(batch: { requests: any[]; }) {
     try {
-      eventHolder.forEach(view =>
-        this.getReportEvents(view)
-          .then((events) => view.eventArray = events
-          ));
-      return eventHolder;
-    }
-    catch (error) {
-      this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
+      let result = await this.graphClient
+      .api('/$batch')
+      .post(JSON.stringify(batch));
+      console.log(result)
+      return result
+    } catch (error) {
+      this.alertsService.add('Batch API error', JSON.stringify(error, null, 2));
     }
   }
 
-  async getReportEvents(view: EventHolder) {
-    try {
-      let result = await this.graphClient
-        .api('/me/calendar/calendarView' + '?startdatetime=' + view.start + '&enddatetime=' + view.end)
-        .select('subject,organizer,start,end,categories')
-        .orderby('start/dateTime ASC')
-        .top(1000)
-        .get();
-      return result.value;
-    } catch (error) {
-      this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
-    }
-  }
+}
 
   // async getCalendars(): Promise<Calendar[]> {
   //   try {
@@ -99,4 +123,3 @@ export class GraphService {
   //     this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
   //   }
   // }
-}

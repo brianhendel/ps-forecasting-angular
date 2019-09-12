@@ -82,7 +82,9 @@ a {
 }
 
 .btn-cust-cont {
+  margin: 10px;
   text-align: center;
+  min-width: 140px
 }
 
 .calendar-title-spacer {
@@ -121,6 +123,10 @@ table {
   background: #3f51b5;
   color: white;
   font-size: 16px;
+}
+
+.mat-raised-button {
+  margin: 10px;
 }
 
 

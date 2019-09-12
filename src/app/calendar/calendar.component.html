@@ -5,7 +5,12 @@
       <div class="calendar-title">
         <div>{{"Calendar  - " + this.dateService.activeView | titlecase }}</div>
       </div>
-      <button class="btn-cust-1" mat-raised-button color="primary"  (click)="setBillable()">Billable Only</button>
+      <div *ngIf="!this.showConfirmed" class="btn-cust-cont">
+        <button mat-raised-button color="primary" (click)="setUtil()">Confirmed Only</button>
+      </div>
+      <div *ngIf="this.showConfirmed" class="btn-cust-cont">
+        <button mat-raised-button color="accent" (click)="setUtil()">Show All</button>
+      </div>
       <mat-card class="card view-box">
         <mat-card-content>
           <mat-form-field>
@@ -18,13 +23,13 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="progbar-cont">
-      <mat-progress-bar mode="indeterminate" *ngIf="progressBarService.showProgBar"></mat-progress-bar>
-    </div>
     <div>
       <mat-form-field class="filter">
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
+      <div class="progbar-cont">
+        <mat-progress-bar mode="indeterminate" *ngIf="progressBarService.showProgBar"></mat-progress-bar>
+      </div>
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource">
           <ng-container matColumnDef="organizer">

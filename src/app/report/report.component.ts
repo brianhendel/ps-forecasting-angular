@@ -31,10 +31,11 @@ export class ReportComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['category', 'month0', 'month1', 'month2', 'quarter0', 'quarter1'];
-  approvedCats: string[] = ['Blue category', 'Orange category'] //'Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Approved Non-Utilization', 'Sales SUpport'];
+  approvedCats: string[] = ['Confirmed Utilization', 'Tentative Utilization'] //'Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Approved Non-Utilization', 'Sales SUpport'];
   private reportDataSource: MatTableDataSource<ReportRow>;
   private reportArray: ReportRow[] = [];
   private eventHolder: EventHolder[];
+  private status: string;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -58,25 +59,30 @@ export class ReportComponent implements OnInit {
   }
 
   runReport() {
+    this.status ="Running"
     this.progressBarService.showBar();
+    //temporarily 'me'
     this.graphService.getReport('me', this.eventHolder)
-      .then((result) => {
-        this.eventHolder = result;
-        console.log(this.eventHolder);
-        this.calcResults()
-        console.log("reportArray")
-        console.log(this.reportArray);
-        this.reportDataSource.data = this.reportArray;
-        this.progressBarService.hideBar();
-      })
+      //.then((result) => {
+        //this.eventHolder = result;
+        //console.log(this.eventHolder);
+        //this.calcDuration()
+        //this.calcResults()
+        //console.log("reportArray")
+        //console.log(this.reportArray);
+        //this.progressBarService.hideBar();
+        //this.reportDataSource.data = this.reportArray;
+        //this.status = "Completed"
+      //})
   }
 
   calcResults() {
-    this.reportArray = [];
+    let temp: ReportRow[] = [];
     this.approvedCats.forEach(cat => {
-      this.reportArray.push({ category: cat, result: this.calcData(cat) }
+      temp.push({ category: cat, result: this.calcData(cat) }
       )
     })
+    this.reportArray = temp;
   }
 
   calcData(cat: string) {
@@ -92,9 +98,11 @@ export class ReportComponent implements OnInit {
 
   }
 
-  calcDuration(eventArray: Event[]) {
-    eventArray.forEach(event => {
-      event.duration = this.dateService.dateDiff(event.start.dateTime, event.end.dateTime)
+  calcDuration() {
+    this.eventHolder.forEach(view => {
+      view.eventArray.forEach(e => {
+        e.duration = this.dateService.dateDiff(e.start.dateTime, e.end.dateTime)
+      })
     })
   }
 }

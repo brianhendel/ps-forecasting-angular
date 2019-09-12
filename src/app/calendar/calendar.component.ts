@@ -31,8 +31,8 @@ export class CalendarComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['organizer', 'subject', 'start', 'end', 'categories', 'duration'];
-  private billableOnly = []
-  private billableStatus: boolean = false
+  private allEvents = [];
+  private showConfirmed: boolean = false;
   private dataSource: MatTableDataSource<Event>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -50,28 +50,22 @@ export class CalendarComponent implements OnInit {
     this.graphService.getEvents()
       .then((events) => {
         this.dataSource.data = events;
+        this.allEvents = events;
         this.calcDuration();
         console.log("Updated eventsGraph with " + this.graphService.eventsGraph.length + " events")
         this.dataSource.paginator.firstPage();
         this.progressBarService.hideBar();
-        this.createBillableList();
       })
   }
 
-  createBillableList() {
-    let billable = [];
-    this.dataSource.data.forEach(data => {
-      if (data.categories.includes("Confirmed Utilization")) {
-        billable.push(data)
-      }
-    })
-    this.billableOnly = billable;
-    console.log(billable)
-  }
-
-  setBillable() {
-    //Original data never saved - this is one-way
-    this.dataSource.data = this.billableOnly
+  setUtil() {
+    if (this.showConfirmed == false) {
+      this.dataSource.data = this.allEvents.filter(e => e.categories.includes("Confirmed Utilization"))
+      this.showConfirmed = true;
+    } else {
+      this.dataSource.data = this.allEvents;
+      this.showConfirmed = false;
+    }
   }
 
   calcDuration() {
@@ -101,9 +95,9 @@ export class CalendarComponent implements OnInit {
     }
     this.getTotalDuration();
   }
-  
+
   filterSetup() {
-    this.dataSource.filterPredicate = (data, filter: string)  => {
+    this.dataSource.filterPredicate = (data, filter: string) => {
       const accumulator = (currentTerm, key) => {
         return this.nestedFilterCheck(currentTerm, data, key);
       };
@@ -113,7 +107,7 @@ export class CalendarComponent implements OnInit {
       return dataStr.indexOf(transformedFilter) !== -1;
     };
   }
-  
+
   nestedFilterCheck(search, data, key) {
     if (typeof data[key] === 'object') {
       for (const k in data[key]) {

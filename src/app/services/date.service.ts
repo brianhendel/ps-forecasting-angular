@@ -39,7 +39,7 @@ export class DateService {
       }
 
       case 'nextWeek': {
-        this.sDT = moment().startOf('week').add(1, 'week').format();
+        this.sDT = moment().add(1, 'week').startOf('week').format();
         this.eDT = moment().add(1, 'week').endOf('week').format();
         this.activeView = "Next Week"
         break
@@ -67,8 +67,8 @@ export class DateService {
       }
 
       case 'thisQuarter': {
-        this.sDT = moment().startOf('week').add(1, 'week').format();
-        this.eDT = moment().add(1, 'week').endOf('quarter').format();
+        this.sDT = moment().startOf('quarter').format();
+        this.eDT = moment().endOf('quarter').format();
         this.activeView = "This Quarter"
         break
       }
