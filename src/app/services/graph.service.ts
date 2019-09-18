@@ -78,7 +78,6 @@ export class GraphService {
     } catch (error) {
       this.alertsService.add('getReport error', JSON.stringify(error, null, 2));
     }
-    console.log(batchResponse.responses)
 
     batchResponse.responses.forEach((resp, i) => {
       result[resp.id].eventArray = resp.body.value

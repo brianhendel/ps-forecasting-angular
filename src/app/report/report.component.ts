@@ -31,7 +31,7 @@ export class ReportComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['category', 'month0', 'month1', 'month2', 'quarter0', 'quarter1'];
-  approvedCats: string[] = ['Confirmed Utilization', 'Tentative Utilization'] //'Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Approved Non-Utilization', 'Sales SUpport'];
+  approvedCats: string[] = ['Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Approved Non-Utilization', 'Sales Support'];
   private reportDataSource: MatTableDataSource<ReportRow>;
   private reportArray: ReportRow[] = [];
   private eventHolder: EventHolder[];
@@ -66,8 +66,6 @@ export class ReportComponent implements OnInit {
         console.log(result);
         this.calcDuration()
         this.calcResults()
-        //console.log("reportArray")
-        //console.log(this.reportArray);
         this.reportDataSource.data = this.reportArray;
         this.progressBarService.hideBar();
       })
@@ -90,7 +88,6 @@ export class ReportComponent implements OnInit {
         .reduce((acc, group) => acc + group.duration, 0)
       )
     })
-    console.log(rowData)
     return rowData
 
   }
