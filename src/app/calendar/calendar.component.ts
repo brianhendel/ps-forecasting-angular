@@ -54,6 +54,7 @@ export class CalendarComponent implements OnInit {
         this.calcDuration();
         console.log("Updated eventsGraph with " + this.graphService.eventsGraph.length + " events")
         this.dataSource.paginator.firstPage();
+        this.showConfirmed = false;
         this.progressBarService.hideBar();
       })
   }

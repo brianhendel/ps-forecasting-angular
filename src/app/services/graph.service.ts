@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Client, GraphRequest, ResponseType } from '@microsoft/microsoft-graph-client';
+import { Client, GraphRequest, ResponseType, BatchResponseContent } from '@microsoft/microsoft-graph-client';
 
 import { AuthService } from './auth.service';
 import { Event, EventHolder } from '../event';
@@ -10,6 +10,7 @@ import { DateService } from './date.service';
 
 import { Observable, of } from 'rxjs';
 import { async } from '@angular/core/testing';
+import { Response } from 'selenium-webdriver/http';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,7 @@ export class GraphService {
         .orderby('start/dateTime ASC')
         .top(1000)
         .get();
-
+      console.log(result)
       this.eventsGraph = result.value;
       return result.value;
     } catch (error) {
@@ -66,46 +67,74 @@ export class GraphService {
     }
   }
 
-  getReport(calendar: string, eventHolder: EventHolder[]): EventHolder[] {
-    let result: EventHolder[] = [];
-    let urls: string[] = [];
-    eventHolder.forEach(view => {
-      urls.push(this.buildUrl(calendar, view))
+  async getReport(calendar: string, eventHolder: EventHolder[]): Promise<EventHolder[]> {
+    let result: EventHolder[] = eventHolder;
+    let batchResponse: GraphResponse;
+    let urls: string[] = this.buildUrls(calendar, eventHolder);
+
+    try {
+      batchResponse = await this.getBatch(this.batchGen(urls))
+
+    } catch (error) {
+      this.alertsService.add('getReport error', JSON.stringify(error, null, 2));
+    }
+    console.log(batchResponse.responses)
+
+    batchResponse.responses.forEach((resp, i) => {
+      result[resp.id].eventArray = resp.body.value
     })
-    console.log(urls)
-    this.batch(urls)
 
     return result
   }
 
-  buildUrl(calendar: string, view: EventHolder) {
-    let url: string;
-    url = '/' + calendar + this.defaults.calendarPath + '?startdatetime=' + view.start + '&enddatetime=' + view.end + '&$select=' + this.defaults.select + '&$orderby=' + this.defaults.orderBy + '&$top=' + this.defaults.top;
-    return url;
+  buildUrls(calendar: string, eventHolder: EventHolder[]) {
+    let urls: string[] = [];
+    eventHolder.forEach(view => {
+      urls.push('/' + calendar + this.defaults.calendarPath + '?startdatetime=' + view.start + '&enddatetime=' + view.end + '&$select=' + this.defaults.select + '&$orderby=' + this.defaults.orderBy + '&$top=' + this.defaults.top)
+    })
+    return urls;
   }
 
-  batch(urls: string[]) {
+  batchGen(urls: string[]) {
     let batch = { requests: [] };
-    let i = 1;
+    let i = 0;
     urls.forEach(u => {
       batch.requests.push({ id: i, method: 'GET', url: u })
       i++
     })
     console.log(batch)
-    this.getBatch(batch)
+    return batch
   }
 
   async getBatch(batch: { requests: any[]; }) {
     try {
       let result = await this.graphClient
-      .api('/$batch')
-      .post(JSON.stringify(batch));
-      console.log(result)
+        .api('/$batch')
+        //.responseType(ResponseType.TEXT)
+        .post(JSON.stringify(batch));
       return result
     } catch (error) {
       this.alertsService.add('Batch API error', JSON.stringify(error, null, 2));
     }
   }
+}
+
+export interface GraphResponse {
+  "responses": GraphResponseView[];
+}
+
+export interface GraphResponseView {
+  id: string;
+  status: number;
+  headers: {
+    "Cache-Control": string;
+    "Content-Type": string;
+    "OData-Version": string;
+  };
+  body: {
+    "@odata.context": string;
+    value: Event[]
+  };
 
 }
 

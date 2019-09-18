@@ -35,7 +35,6 @@ export class ReportComponent implements OnInit {
   private reportDataSource: MatTableDataSource<ReportRow>;
   private reportArray: ReportRow[] = [];
   private eventHolder: EventHolder[];
-  private status: string;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -59,21 +58,19 @@ export class ReportComponent implements OnInit {
   }
 
   runReport() {
-    this.status ="Running"
     this.progressBarService.showBar();
     //temporarily 'me'
     this.graphService.getReport('me', this.eventHolder)
-      //.then((result) => {
-        //this.eventHolder = result;
-        //console.log(this.eventHolder);
-        //this.calcDuration()
-        //this.calcResults()
+      .then((result) => {
+        this.eventHolder = result;
+        console.log(result);
+        this.calcDuration()
+        this.calcResults()
         //console.log("reportArray")
         //console.log(this.reportArray);
-        //this.progressBarService.hideBar();
-        //this.reportDataSource.data = this.reportArray;
-        //this.status = "Completed"
-      //})
+        this.reportDataSource.data = this.reportArray;
+        this.progressBarService.hideBar();
+      })
   }
 
   calcResults() {
