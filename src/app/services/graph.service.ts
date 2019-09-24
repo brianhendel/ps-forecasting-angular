@@ -116,6 +116,21 @@ export class GraphService {
       this.alertsService.add('Batch API error', JSON.stringify(error, null, 2));
     }
   }
+
+  async getCalendars(): Promise<CalendarResponse> {
+    try {
+      let result = await this.graphClient
+        .api('/me/calendarGroups/3baf740f-fdbf-47ae-83b9-2b56d722e0ca/calendars')
+        //.select('name,owner,canEdit,canViewPrivateItems')
+        .top(100)
+        .get();
+  
+      console.log(result)
+      return result;
+    } catch (error) {
+      this.alertsService.add('Could not get calendarGroup', JSON.stringify(error, null, 2));
+    }
+  }
 }
 
 export interface GraphResponse {
@@ -134,20 +149,25 @@ export interface GraphResponseView {
     "@odata.context": string;
     value: Event[]
   };
-
 }
 
-  // async getCalendars(): Promise<Calendar[]> {
-  //   try {
-  //     let result = await this.graphClient
-  //       .api('/me/calendars')
-  //       .select('name,owner,canEdit,canViewPrivateItems')
-  //       .top(100)
-  //       .get();
-  // 
-  //     this.calendarsGraph = result.value
-  //     return result.value;
-  //   } catch (error) {
-  //     this.alertsService.add('Could not get events', JSON.stringify(error, null, 2));
-  //   }
-  // }
+export interface CalendarResponse {
+  "@odata.context": string;
+  value: Calendar[]
+}
+
+export interface Calendar {
+  id: string;
+  name: string;
+  color: string;
+  changeKey: string;
+  canShare: string;
+  canViewPrivateItems: boolean;
+  canEdit: boolean;
+  owner: {
+    name: string;
+    address: string;
+  }
+}
+
+

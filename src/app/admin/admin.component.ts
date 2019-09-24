@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GraphService } from '../services/graph.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private graphService: GraphService,
+  ) { }
 
   ngOnInit() {
 
