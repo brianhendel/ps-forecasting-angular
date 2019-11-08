@@ -1,5 +1,27 @@
 <div class="container">
-
-    <button mat-raised-button (click)="graphService.getCalendars()">Calendar Service</button>
+  <div class="container">
+    <mat-card class="card view-box">
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>Calendar Groups</mat-label>
+          <mat-select (selectionChange)="this.pullCalendars($event.value.id)">
+            <mat-option *ngFor="let g of this.calendarGroups" [value]="g">{{g.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <br>
+  <div class="container">
+    <mat-card class="card view-box">
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>Calendars</mat-label>
+          <mat-select (selectionChange)="this.pullCalendarEvents(this.groupId, $event.value.id)">
+            <mat-option *ngFor="let c of this.calendarsInGroup" [value]="c">{{c.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
-
