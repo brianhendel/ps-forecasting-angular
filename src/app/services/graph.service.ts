@@ -116,44 +116,6 @@ export class GraphService {
       this.alertsService.add('Batch API error', JSON.stringify(error, null, 2));
     }
   }
-
-  async getCalendarGroups(): Promise<CalendarGroupResponse> {
-    try {
-      let result = await this.graphClient
-        .api('/me/calendarGroups/')
-        .top(100)
-        .get();
-      return result;
-    } catch (error) {
-      this.alertsService.add('Could not get calendarGroup', JSON.stringify(error, null, 2));
-    }
-  }
-
-  async getCalendars(groupId: string): Promise<CalendarResponse> {
-    try {
-      let result = await this.graphClient
-        .api('/me/calendargroups/' + groupId + '/calendars')
-        .top(100)
-        .get();
-      return result;
-    } catch (error) {
-      this.alertsService.add('Could not get calendarGroup', JSON.stringify(error, null, 2));
-    }
-  }
-
-  async getCalendarEvents(groupId: string, calendarId: string): Promise<Event[]> {
-    try {
-      let result = await this.graphClient
-        .api('/me/calendarGroups/' + groupId + '/calendars/' + calendarId + '/calendarView' + '?startdatetime=' + this.dateService.sDT + '&enddatetime=' + this.dateService.eDT)
-        .select('subject,organizer,start,end,categories')
-        .orderby('start/dateTime ASC')
-        .top(1000)
-        .get();
-      return result;
-    } catch (error) {
-      this.alertsService.add('Could not get calendarGroup', JSON.stringify(error, null, 2));
-    }
-  }
 }
 
 
@@ -175,33 +137,7 @@ export interface GraphResponseView {
   };
 }
 
-export interface CalendarGroupResponse {
-  "@odata.context": string;
-  value: CalendarGroup[]
-}
 
-export interface CalendarGroup {
-  id: string;
-  name: string;
-}
 
-export interface CalendarResponse {
-  "@odata.context": string;
-  value: Calendar[]
-}
-
-export interface Calendar {
-  id: string;
-  name: string;
-  color: string;
-  changeKey: string;
-  canShare: string;
-  canViewPrivateItems: boolean;
-  canEdit: boolean;
-  owner: {
-    name: string;
-    address: string;
-  }
-}
 
 

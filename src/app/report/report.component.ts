@@ -89,7 +89,6 @@ export class ReportComponent implements OnInit {
       )
     })
     return rowData
-
   }
 
   calcDuration() {

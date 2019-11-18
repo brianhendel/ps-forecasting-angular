@@ -38,3 +38,17 @@ export class Event {
     category: string;
     result: number[]
   }
+
+  export interface Calendar {
+    id: string;
+    name: string;
+    color: string;
+    changeKey: string;
+    canShare: string;
+    canViewPrivateItems: boolean;
+    canEdit: boolean;
+    owner: {
+      name: string;
+      address: string;
+    }
+  }
