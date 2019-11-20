@@ -53,8 +53,8 @@ export class CalendarComponent implements OnInit {
     this.dateService.setEndType(endType);
     this.graphService.getEvents(this.userEmail)
       .then((events) => {
-        this.dataSource.data = events;
-        this.allEvents = events;
+        this.dataSource.data = events.filter(e => e.organizer != null);
+        this.allEvents = events.filter(e => e.organizer != null);
         this.calcDuration();
         console.log("Updated eventsGraph with " + this.graphService.eventsGraph.length + " events")
         this.dataSource.paginator.firstPage();
