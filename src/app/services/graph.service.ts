@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Client, GraphRequest, ResponseType, BatchResponseContent } from '@microsoft/microsoft-graph-client';
 
-import { AuthService } from './auth.service';
 import { Event, EventHolder } from '../event';
-//import { Calendar } from '../calendar';
 
+import { AuthService } from './auth.service';
 import { AlertsService } from './alerts.service';
 import { DateService } from './date.service';
 
-import { Observable, of } from 'rxjs';
-import { async } from '@angular/core/testing';
-import { Response } from 'selenium-webdriver/http';
 
 @Injectable({
   providedIn: 'root'
@@ -51,12 +47,12 @@ export class GraphService {
     });
   }
 
-  async getEvents(): Promise<Event[]> {
+  async getEvents(user: string): Promise<Event[]> {
     try {
       let result = await this.graphClient
-        .api('/me/calendar/calendarView' + '?startdatetime=' + this.dateService.sDT + '&enddatetime=' + this.dateService.eDT)
-        .select('subject,organizer,start,end,categories')
-        .orderby('start/dateTime ASC')
+        .api('/users/' + user + '/calendar/calendarView' + '?startdatetime=' + this.dateService.sDT + '&enddatetime=' + this.dateService.eDT)
+        .select(this.defaults.select)
+        .orderby(this.defaults.orderBy)
         .top(1000)
         .get();
       console.log(result)
@@ -109,7 +105,6 @@ export class GraphService {
     try {
       let result = await this.graphClient
         .api('/$batch')
-        //.responseType(ResponseType.TEXT)
         .post(JSON.stringify(batch));
       return result
     } catch (error) {

@@ -6,8 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AngularMaterialModule } from '../app/angular-material/angular-material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -25,9 +23,9 @@ import { HomeComponent } from './home/home.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { AdminComponent } from './admin/admin.component';
+import { ReportComponent } from './report/report.component';
 
 import { GraphService } from './services/graph.service';
-import { ReportComponent } from './report/report.component';
 
 library.add(faExternalLinkAlt);
 library.add(faUserCircle);
@@ -50,7 +48,6 @@ library.add(faUserCircle);
     AngularMaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
-    NgbModule,
     FontAwesomeModule,
     MsalModule.forRoot({
       clientID: OAuthSettings.appId

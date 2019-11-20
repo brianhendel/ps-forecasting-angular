@@ -5,6 +5,8 @@ export const OAuthSettings = {
       "calendars.read",
       "calendars.read.shared",
       "mail.read",
+      //"user.read.all"
+      //"directory.read.all"
       
     ]
   };

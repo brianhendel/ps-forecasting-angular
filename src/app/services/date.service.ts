@@ -6,6 +6,7 @@ import * as moment from 'moment-timezone';
 @Injectable({
   providedIn: 'root'
 })
+
 export class DateService {
 
   public endType: string;
@@ -73,10 +74,6 @@ export class DateService {
         break
       }
     }
-  }
-
-  reportDates() {
-
   }
 
   dateDiff(start: string, end: string) {

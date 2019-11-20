@@ -11,6 +11,7 @@ import { GraphService } from '../services/graph.service';
 import { AlertsService } from '../services/alerts.service';
 import { DateService } from '../services/date.service';
 import { ProgressBarService } from '../services/progress-bar.service';
+import { AuthService } from '../services/auth.service';
 
 import { Event, DateTimeTimeZone } from '../event';
 
@@ -25,29 +26,32 @@ export class CalendarComponent implements OnInit {
     private graphService: GraphService,
     private dateService: DateService,
     private alertsService: AlertsService,
-    private progressBarService: ProgressBarService
+    private progressBarService: ProgressBarService,
+    private authService: AuthService,
   ) {
     this.dataSource = new MatTableDataSource()
   }
 
-  displayedColumns: string[] = ['organizer', 'subject', 'start', 'end', 'categories', 'duration'];
+  private userEmail: string = 'brian.hendel@omaticsoftware.com';
   private allEvents = [];
   private showConfirmed: boolean = false;
+
+  displayedColumns: string[] = ['organizer', 'subject', 'start', 'end', 'categories', 'duration'];
   private dataSource: MatTableDataSource<Event>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   ngOnInit() {
     this.refreshTable('thisWeek')
+    this.filterSetup();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.filterSetup();
   }
-
+  
   refreshTable(endType: string) {
     this.progressBarService.showBar();
     this.dateService.setEndType(endType);
-    this.graphService.getEvents()
+    this.graphService.getEvents(this.userEmail)
       .then((events) => {
         this.dataSource.data = events;
         this.allEvents = events;
@@ -67,6 +71,13 @@ export class CalendarComponent implements OnInit {
       this.dataSource.data = this.allEvents;
       this.showConfirmed = false;
     }
+  }
+
+  setAlt(nameInput: string) {
+    let conv = nameInput.toLowerCase().replace(" ",".") + '@' + this.authService.user.email.split("@")[1];
+    console.log(conv);
+    this.userEmail = conv;
+    this.refreshTable('thisWeek');
   }
 
   calcDuration() {
