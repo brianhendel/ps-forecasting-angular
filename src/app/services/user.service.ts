@@ -1,29 +1,31 @@
 import { Injectable } from '@angular/core';
+import { User } from '../user'
 
-import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor( 
-    private authService: AuthService,
-  ) { 
-    this.activeEmail = this.authService.user.email;
+  constructor( ) { 
   }
 
   ngOnInit() {
-    console.log(this.activeEmail)
   }
 
+  public loggedInUser: User;
   public activeEmail: string;
 
+  setLoggedInUser(user: User) {
+    this.loggedInUser = user
+    this.activeEmail = user.mail
+  }
+  
   setAlt(nameInput: string) {
-    let conv = nameInput.toLowerCase().replace(" ",".") + '@' + this.authService.user.email.split("@")[1];
+    let conv = nameInput.toLowerCase().replace(" ",".") + '@' + this.loggedInUser.mail.split("@")[1];
     this.activeEmail = conv;
+    
     return conv
   }
-
 
 }

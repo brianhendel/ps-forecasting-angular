@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
+import { Client } from '@microsoft/microsoft-graph-client';
 
 import { AlertsService } from './alerts.service';
+import { UserService } from './user.service';
+
 import { OAuthSettings } from '../../oauth';
-import { Client } from '@microsoft/microsoft-graph-client';
 import { User } from '../user'
 
 @Injectable({
@@ -15,10 +17,14 @@ export class AuthService {
 
   constructor(
     private msalService: MsalService,
-    private alertsService: AlertsService) {
-
-    this.authenticated = this.msalService.getUser() !=null;
-    this.getUser().then((user) => {this.user = user});
+    private alertsService: AlertsService,
+    private userService: UserService
+    ) {
+    this.authenticated = this.msalService.getUser() != null;
+    this.getUser().then((user) => {
+      this.user = user;
+      this.userService.setLoggedInUser(user)
+    });
   }
 
   // Prompt the user to sign in and
@@ -80,8 +86,10 @@ export class AuthService {
     let user = new User();
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
-    user.email = graphUser.mail || graphUser.userPrincipalName;
-  
+    user.mail = graphUser.mail || graphUser.userPrincipalName;
+    
+    
     return user;
+    
   }
 }

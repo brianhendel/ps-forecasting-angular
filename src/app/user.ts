@@ -1,5 +1,5 @@
 export class User {
     displayName: string;
-    email: string;
+    mail: string;
     avatar: string;
   }

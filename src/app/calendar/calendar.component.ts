@@ -27,7 +27,7 @@ export class CalendarComponent implements OnInit {
     private dateService: DateService,
     private alertsService: AlertsService,
     private progressBarService: ProgressBarService,
-    private userService: UserService,
+    public userService: UserService,
     ) {
       this.dataSource = new MatTableDataSource()
     }
@@ -61,6 +61,12 @@ export class CalendarComponent implements OnInit {
         this.progressBarService.hideBar();
       })
   }
+
+  changeAlt(alt: string) {
+    this.userService.setAlt(alt);
+    this.refreshTable('thisWeek');
+  }
+
 
   setUtil() {
     if (this.showConfirmed == false) {

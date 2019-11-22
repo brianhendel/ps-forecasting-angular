@@ -26,6 +26,7 @@ import { AdminComponent } from './admin/admin.component';
 import { ReportComponent } from './report/report.component';
 
 import { GraphService } from './services/graph.service';
+import { UserService } from './services/user.service';
 
 library.add(faExternalLinkAlt);
 library.add(faUserCircle);
@@ -53,7 +54,7 @@ library.add(faUserCircle);
       clientID: OAuthSettings.appId
     })
   ],
-  providers: [GraphService],
+  providers: [GraphService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
