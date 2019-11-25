@@ -1,6 +1,15 @@
 <br>
-<div class="btn-cust-cont">
-  <button mat-raised-button color="primary" (click)="runReport()">Run Report</button>
+<div>
+  <mat-card class="card">
+    <div class="btn-cust-cont">
+      <div class="calendar-title-spacer">
+        <div class="calendar-title">
+          <div>{{"Report - " + this.userService.activeUser}}</div>
+        </div>
+        <button mat-raised-button color="primary" (click)="runReport()">Run Report</button>
+      </div>
+      </div>
+  </mat-card>
 </div>
 
 <div>

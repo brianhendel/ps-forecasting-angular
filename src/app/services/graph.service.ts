@@ -82,10 +82,10 @@ export class GraphService {
     return result
   }
 
-  buildUrls(calendar: string, eventHolder: EventHolder[]) {
+  buildUrls(userEmail: string, eventHolder: EventHolder[]) {
     let urls: string[] = [];
     eventHolder.forEach(view => {
-      urls.push('/' + calendar + this.defaults.calendarPath + '?startdatetime=' + view.start + '&enddatetime=' + view.end + '&$select=' + this.defaults.select + '&$orderby=' + this.defaults.orderBy + '&$top=' + this.defaults.top)
+      urls.push('/users/' + userEmail + this.defaults.calendarPath + '?startdatetime=' + view.start + '&enddatetime=' + view.end + '&$select=' + this.defaults.select + '&$orderby=' + this.defaults.orderBy + '&$top=' + this.defaults.top)
     })
     return urls;
   }

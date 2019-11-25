@@ -11,6 +11,7 @@ import { GraphService } from '../services/graph.service';
 import { AlertsService } from '../services/alerts.service';
 import { DateService } from '../services/date.service';
 import { ProgressBarService } from '../services/progress-bar.service';
+import { UserService } from '../services/user.service'
 
 import { Event, EventHolder, ReportRow } from '../event';
 
@@ -26,6 +27,7 @@ export class ReportComponent implements OnInit {
     private dateService: DateService,
     private alertsService: AlertsService,
     private progressBarService: ProgressBarService,
+    private userService: UserService
   ) {
     this.reportDataSource = new MatTableDataSource()
   }
@@ -59,8 +61,7 @@ export class ReportComponent implements OnInit {
 
   runReport() {
     this.progressBarService.showBar();
-    //temporarily 'me'
-    this.graphService.getReport('me', this.eventHolder)
+    this.graphService.getReport(this.userService.activeEmail, this.eventHolder)
       .then((result) => {
         this.eventHolder = result;
         console.log(result);

@@ -3,7 +3,7 @@
   <mat-card class="card">
     <div class="calendar-title-spacer">
       <div class="calendar-title">
-        <div>{{"Calendar  - " + this.dateService.activeView | titlecase }}</div>
+        <div>{{this.userService.activeUser + " - " + this.dateService.activeView | titlecase }}</div>
       </div>
       <div *ngIf="!this.showConfirmed" class="btn-cust-cont">
         <button mat-raised-button color="primary" (click)="setUtil()">Confirmed Only</button>
