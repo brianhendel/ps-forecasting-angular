@@ -67,6 +67,20 @@ body {
   box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
   width: 90%;
 }
+
+.mat-card {
+  margin: 10px;
+}
+.view-box {
+  max-width: 130px;
+  display: inline;
+  background: #edf0ff;
+  padding-right: 1px;
+  padding-left: 1px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
 .example-container {
   display: flex;
   flex-direction: row;
@@ -92,7 +106,7 @@ a {
   align-items: center;
   display: flex;
   justify-content: center;
-  padding: 2px 20px;
+  padding: 2px 5px;
 }
 
 .calendar-title {
@@ -104,7 +118,7 @@ a {
 }
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 .mat-form-field {
@@ -137,12 +151,6 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 .progbar-cont {
   min-height: 10px;
-}
-
-.view-box {
-  max-width: 130px;
-  display: inline;
-  background: #edf0ff;
 }
 
 .right-align {
