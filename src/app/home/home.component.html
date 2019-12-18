@@ -4,6 +4,15 @@
   <ng-template #welcomeUser>
     <h4>Welcome {{ authService.user.displayName }}!</h4>
     <p>Use the navigation bar at the top of the page to get started.</p>
+    <br>
+
+    <h4>Latest Update: Custom Report Rows</h4>
+    <ul>
+      <li><b>Breaking change for prior reporting: Outlook categories must be updated</b></li>
+      <li>Add unlimited categories to the list by adding [#] to the beginning</li>
+      <li>Track time types or customers - reporting is NOT mutually exclusive and events can be in multiple rows</li>
+      <li>Use "[1] Confirmed Utilization" to get the "Primary Only" button to work (still in progress)</li>
+    </ul>
 
   </ng-template>
   <ng-template #signInPrompt>

@@ -5,10 +5,10 @@
       <div class="calendar-title">
         <div>{{this.userService.activeUser + " - " + this.dateService.activeView | titlecase }}</div>
       </div>
-      <div *ngIf="!this.showConfirmed" class="btn-cust-cont">
-        <button mat-raised-button color="primary" (click)="setUtil()">Confirmed Only</button>
+      <div *ngIf="!this.showPrimary" class="btn-cust-cont">
+        <button mat-raised-button color="primary" (click)="setUtil()">Primary Only</button>
       </div>
-      <div *ngIf="this.showConfirmed" class="btn-cust-cont">
+      <div *ngIf="this.showPrimary" class="btn-cust-cont">
         <button mat-raised-button color="accent" (click)="setUtil()">Show All</button>
       </div>
       <mat-card class="card view-box">

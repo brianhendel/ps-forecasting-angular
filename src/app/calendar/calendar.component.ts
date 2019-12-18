@@ -33,7 +33,7 @@ export class CalendarComponent implements OnInit {
     }
     
   private allEvents = [];
-  private showConfirmed: boolean = false;
+  private showPrimary: boolean = false;
 
   public displayedColumns: string[] = ['organizer', 'subject', 'start', 'end', 'categories', 'duration'];
   private dataSource: MatTableDataSource<Event>;
@@ -57,7 +57,7 @@ export class CalendarComponent implements OnInit {
         this.calcDuration();
         console.log("Updated eventsGraph with " + this.graphService.eventsGraph.length + " events")
         this.dataSource.paginator.firstPage();
-        this.showConfirmed = false;
+        this.showPrimary = false;
         this.progressBarService.hideBar();
       })
   }
@@ -69,12 +69,12 @@ export class CalendarComponent implements OnInit {
 
 
   setUtil() {
-    if (this.showConfirmed == false) {
-      this.dataSource.data = this.allEvents.filter(e => e.categories.includes("Confirmed Utilization"))
-      this.showConfirmed = true;
+    if (this.showPrimary == false) {
+      this.dataSource.data = this.allEvents.filter(e => e.categories.includes("[1] Confirmed Utilization"))
+      this.showPrimary = true;
     } else {
       this.dataSource.data = this.allEvents;
-      this.showConfirmed = false;
+      this.showPrimary = false;
     }
   }
 

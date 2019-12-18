@@ -13,7 +13,7 @@ import { DateService } from '../services/date.service';
 import { ProgressBarService } from '../services/progress-bar.service';
 import { UserService } from '../services/user.service'
 
-import { Event, EventHolder, ReportRow } from '../event';
+import { Event, EventHolder, ReportRow, Category } from '../event';
 
 @Component({
   selector: 'app-report',
@@ -34,6 +34,7 @@ export class ReportComponent implements OnInit {
 
   displayedColumns: string[] = ['category', 'month0', 'month1', 'month2', 'quarter0', 'quarter1'];
   approvedCats: string[] = ['Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Sales Support'];
+  foundCats: Category[] = []
   private reportDataSource: MatTableDataSource<ReportRow>;
   private reportArray: ReportRow[] = [];
   private eventHolder: EventHolder[];
@@ -65,27 +66,50 @@ export class ReportComponent implements OnInit {
       .then((result) => {
         this.eventHolder = result;
         console.log(result);
-        this.calcDuration()
-        this.calcResults()
+        this.getCategories(this.eventHolder);
+        this.calcDuration();
+        this.calcResults();
         this.reportDataSource.data = this.reportArray;
         this.progressBarService.hideBar();
       })
   }
 
+  getCategories(groups: EventHolder[]) {
+    let foundCats: Category[] = [];
+    let foundIds: number[] = []
+    groups.forEach(group => {
+      group.eventArray.forEach(event => {
+        event.categories.forEach(c => {
+          if (c.startsWith('[')) {
+            let newCat: Category = { id: 0, name: 'temp' }
+            newCat.id = Number(c.charAt(1))
+            newCat.name = c
+            if (foundIds.includes(newCat.id)) {
+            } else {
+              foundCats.push(newCat)
+              foundIds.push(newCat.id)
+            }
+          }
+        });
+      })
+    })
+    this.foundCats = foundCats.sort((a, b) => a.id - b.id)
+  }
+
   calcResults() {
     let temp: ReportRow[] = [];
-    this.approvedCats.forEach(cat => {
-      temp.push({ category: cat, result: this.calcData(cat) }
+    this.foundCats.forEach(cat => {
+      temp.push({ category: cat.name, result: this.calcData(cat.name) }
       )
     })
     this.reportArray = temp;
   }
 
-  calcData(cat: string) {
+  calcData(catName: string) {
     let rowData: number[] = [];
     this.eventHolder.forEach(group => {
       rowData.push(group.eventArray
-        .filter(group => group.categories.includes(cat))
+        .filter(group => group.categories.includes(catName))
         .reduce((acc, group) => acc + group.duration, 0)
       )
     })

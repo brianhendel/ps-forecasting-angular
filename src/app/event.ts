@@ -52,3 +52,8 @@ export class Event {
       address: string;
     }
   }
+
+  export class Category {
+    id: number;
+    name: string;
+  }
