@@ -16,11 +16,13 @@ export class UserService {
   public loggedInUser: User;
   public activeUser: string;
   public activeEmail: string;
+  public userReady: boolean = false;
 
   setLoggedInUser(user: User) {
     this.loggedInUser = user;
     this.activeUser = user.displayName;
     this.activeEmail = user.mail;
+    this.userReady = true;
 
   }
   

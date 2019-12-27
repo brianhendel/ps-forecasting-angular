@@ -50,6 +50,7 @@ export class CalendarComponent implements OnInit {
   refreshTable(endType: string) {
     this.progressBarService.showBar();
     this.dateService.setEndType(endType);
+    console.log(this.userService.activeEmail)
     this.graphService.getEvents(this.userService.activeEmail)
       .then((events) => {
         this.dataSource.data = events.filter(e => e.organizer != null);

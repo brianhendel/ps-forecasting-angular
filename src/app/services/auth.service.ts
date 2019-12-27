@@ -11,20 +11,18 @@ import { User } from '../user'
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   public authenticated: boolean;
-  public user: User;
+  public user: User = {displayName: '', mail: '', avatar: ''};
 
   constructor(
     private msalService: MsalService,
     private alertsService: AlertsService,
-    private userService: UserService
-    ) {
-    this.authenticated = this.msalService.getUser() != null;
-    this.getUser().then((user) => {
-      this.user = user;
-      this.userService.setLoggedInUser(user)
-    });
+    public userService: UserService) {
+
+      this.authenticated = this.msalService.getUser() != null;
+      this.getUser().then((user) => {this.user = user});
   }
 
   // Prompt the user to sign in and
@@ -60,36 +58,35 @@ export class AuthService {
 
   private async getUser(): Promise<User> {
     if (!this.authenticated) return null;
-  
+
     let graphClient = Client.init({
       // Initialize the Graph client with an auth
       // provider that requests the token from the
       // auth service
-      authProvider: async(done) => {
+      authProvider: async (done) => {
         let token = await this.getAccessToken()
           .catch((reason) => {
             done(reason, null);
           });
-  
-        if (token)
-        {
+
+        if (token) {
           done(null, token);
         } else {
           done("Could not get an access token", null);
         }
       }
     });
-  
+
     // Get the user from Graph (GET /me)
     let graphUser = await graphClient.api('/me').get();
-  
+
     let user = new User();
     user.displayName = graphUser.displayName;
     // Prefer the mail property, but fall back to userPrincipalName
     user.mail = graphUser.mail || graphUser.userPrincipalName;
-    
-    
+
+    this.userService.setLoggedInUser(user)
     return user;
-    
+
   }
 }

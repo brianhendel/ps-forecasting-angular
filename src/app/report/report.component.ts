@@ -27,7 +27,7 @@ export class ReportComponent implements OnInit {
     private dateService: DateService,
     private alertsService: AlertsService,
     private progressBarService: ProgressBarService,
-    private userService: UserService
+    public userService: UserService
   ) {
     this.reportDataSource = new MatTableDataSource()
   }
