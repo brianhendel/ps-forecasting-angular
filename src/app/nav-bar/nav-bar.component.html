@@ -1,27 +1,27 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
     <mat-nav-list>
-      <a mat-list-item routerLink="/">
+      <a mat-list-item routerLink="/" (click)="sidenav.toggle()">
         <mat-icon class="icon">home</mat-icon>
         <span class="label">Home</span>
       </a>
-      <a mat-list-item routerLink="/calendar">
+      <a mat-list-item routerLink="/calendar" (click)="sidenav.toggle()">
         <mat-icon class="icon">dashboard</mat-icon>
         <span class="label">Calendar</span>
       </a>
-      <a mat-list-item routerLink="/report">
+      <a mat-list-item routerLink="/report" (click)="sidenav.toggle()">
         <mat-icon class="icon">view_list</mat-icon>
         <span class="label">Report</span>
       </a>
-      <a mat-list-item routerLink="/admin">
+      <a mat-list-item routerLink="/admin" (click)="sidenav.toggle()">
         <mat-icon class="icon">build</mat-icon>
         <span class="label">Admin</span>
       </a>
-      <a mat-list-item *ngIf="!authService.authenticated" (click)="signIn()">
+      <a mat-list-item *ngIf="!authService.authenticated" (click)="signIn()" (click)="sidenav.toggle()">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Sign In</span>
       </a>
-      <a mat-list-item *ngIf="authService.authenticated" (click)="signOut()" type="button">
+      <a mat-list-item *ngIf="authService.authenticated" (click)="signOut()" (click)="sidenav.toggle()">
         <mat-icon class="icon">input</mat-icon>
         <span class="label">Sign Out</span>
       </a>
@@ -39,7 +39,7 @@
           <span class="label label-title">PS Forecasting</span>
         </a>
       </div>
-      <div fxFlex fxLayoutAlign="flex-end" fxHide.xs>
+      <div fxFlex flLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
             <a routerLink="/">
@@ -80,5 +80,8 @@
         </ul>
       </div>
     </mat-toolbar>
+    <main role="main" class="container">
+      <router-outlet></router-outlet>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

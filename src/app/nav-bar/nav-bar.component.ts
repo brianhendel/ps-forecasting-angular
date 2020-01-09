@@ -9,19 +9,10 @@ import { AuthService } from '../services/auth.service';
 })
 export class NavBarComponent implements OnInit {
 
-  // Should the collapsed nav show?
-  showNav: boolean;
-
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.showNav = false;
-  }
-
-  // Used by the Bootstrap navbar-toggler button to hide/show
-  // the nav in a collapsed state
-  toggleNavBar(): void {
-    this.showNav = !this.showNav;
+    
   }
 
   async signIn(): Promise<void> {

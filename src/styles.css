@@ -2,11 +2,21 @@
 
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+html {
   height: 100%;
 }
 
-mat-sidenav {
+body {
+  height: 100%;
+  margin: 0;
+}
+
+
+.mat-sidenav-container, .mat-sidenav-content, .mat-sidenav {
+  height: 100%;
+}
+
+.mat-sidenav {
   width: 250px;
 }
 
@@ -48,10 +58,6 @@ a:active {
 .label-title {
   font-weight: bold;
   font-size: 22px;
-}
-
-body {
-  margin: 0;
 }
 
 .alert-pre {
