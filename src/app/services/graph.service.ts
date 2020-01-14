@@ -70,16 +70,17 @@ export class GraphService {
 
     try {
       batchResponse = await this.getBatch(this.batchGen(urls))
-
+      
+      batchResponse.responses.forEach((resp, i) => {
+        result[resp.id].eventArray = resp.body.value
+      })
+  
+      console.log(result)
+      return result
     } catch (error) {
       this.alertsService.add('getReport error', JSON.stringify(error, null, 2));
     }
 
-    batchResponse.responses.forEach((resp, i) => {
-      result[resp.id].eventArray = resp.body.value
-    })
-
-    return result
   }
 
   buildUrls(userEmail: string, eventHolder: EventHolder[]) {

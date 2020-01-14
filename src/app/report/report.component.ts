@@ -33,7 +33,7 @@ export class ReportComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['category', 'month0', 'month1', 'month2', 'quarter0', 'quarter1'];
-  approvedCats: string[] = ['Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Sales Support'];
+  //approvedCats: string[] = ['Confirmed Utilization', 'Tentative Utilization', 'Holiday', 'PTO', 'Admin', 'Professional Development', 'Group Training', 'Sales Support'];
   foundCats: Category[] = []
   private reportDataSource: MatTableDataSource<ReportRow>;
   private reportArray: ReportRow[] = [];
@@ -52,9 +52,9 @@ export class ReportComponent implements OnInit {
 
   buildEventHolder() {
     this.eventHolder = [
-      { name: 'month0', displayName: moment().startOf('month').format('MMMM YYYY'), start: moment().startOf('month').format(), end: moment().endOf('month').format(), eventArray: [] },
-      { name: 'month1', displayName: moment().add(1, 'month').startOf('month').format('MMMM YYYY'), start: moment().add(1, 'month').startOf('month').format(), end: moment().add(1, 'month').endOf('month').format(), eventArray: [] },
-      { name: 'month2', displayName: moment().add(2, 'month').startOf('month').format('MMMM YYYY'), start: moment().add(2, 'month').startOf('month').format(), end: moment().add(2, 'month').endOf('month').format(), eventArray: [] },
+      { name: 'month0', displayName: moment().startOf('month').format('MMM'), start: moment().startOf('month').format(), end: moment().endOf('month').format(), eventArray: [] },
+      { name: 'month1', displayName: moment().add(1, 'month').startOf('month').format('MMM'), start: moment().add(1, 'month').startOf('month').format(), end: moment().add(1, 'month').endOf('month').format(), eventArray: [] },
+      { name: 'month2', displayName: moment().add(2, 'month').startOf('month').format('MMM'), start: moment().add(2, 'month').startOf('month').format(), end: moment().add(2, 'month').endOf('month').format(), eventArray: [] },
       { name: 'quarter0', displayName: 'Q' + moment().quarter(), start: moment().startOf('quarter').format(), end: moment().endOf('quarter').format(), eventArray: [] },
       { name: 'quarter1', displayName: 'Q' + moment().add(1, 'quarter').quarter(), start: moment().add(1, 'quarter').startOf('quarter').format(), end: moment().add(1, 'quarter').endOf('quarter').format(), eventArray: [] },
     ]
@@ -65,8 +65,8 @@ export class ReportComponent implements OnInit {
     this.graphService.getReport(this.userService.activeEmail, this.eventHolder)
       .then((result) => {
         this.eventHolder = result;
-        console.log(result);
-        this.getCategories(this.eventHolder);
+        console.log(this.eventHolder);
+        this.getCategories(result);
         this.calcDuration();
         this.calcResults();
         this.reportDataSource.data = this.reportArray;
